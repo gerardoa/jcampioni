@@ -6,7 +6,24 @@ jimport('joomla.application.component.model');
 class CampioniModelCampioni extends JModel
 {
 	var $_campioni;
+	var $_filteredCampioni;
+	var $_allCampioni;
 	var $tableName = '#__campioni_richieste';
+	var $_pagination;
+	var $_total;
+	var $_regioni;
+
+	function __construct()
+	{
+		global $mainframe, $option;
+		parent::__construct();
+		// Get the pagination request variables
+		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
+		$limitStart = $mainframe->getUserStateFromRequest($option.'limitstart', 'limitstart', 0);
+		// set the state pagination variables
+		$this->setState('limit', $limit);
+		$this->setState('limitstart', $limitStart);
+	}
 
 	function _buildQuery()
 	{
@@ -46,12 +63,39 @@ class CampioniModelCampioni extends JModel
 	{
 		// Lets load the data if it doesn't already exist
 		if (empty( $this->_campioni ))
-		{			
+		{
+			$campioni = $this->getFilteredCampioni();
+			$limitStart = $this->getState('limitstart');
+			$limit = $this->getState('limit');
+			if ( $limit == 0 ) {
+				$this->_campioni = $campioni;				
+			} else {
+				$this->_campioni = array_slice($campioni, $limitStart, $limit);
+			}
+		}
+		return $this->_campioni;
+	}
+	
+	function getFilteredCampioni()
+	{
+		if (empty( $this->_filteredCampioni ))
+		{
+			$campioni = $this->getAllCampioni();
+			$campioni = $this->_filterByRegione( $campioni );
+			$this->_filteredCampioni = $campioni;
+		}
+		return $this->_filteredCampioni;
+	}
+
+	function getAllCampioni()
+	{
+		if (empty( $this->_allCampioni ))
+		{
 			$query = $this->_buildQuery();
-			$this->_campioni = $this->_getList( $query );
+			$this->_allCampioni = $this->_getList( $query );
 			$provincia = $this->getTable( 'Provincia', 'Table' );
 			$regione = $this->getTable( 'Regione', 'Table' );
-			foreach ($this->_campioni as $campione) {
+			foreach ($this->_allCampioni as $campione) {
 				$provincia->loadBySigla( $campione->provincia );
 				$regione->id = $provincia->id_regione;
 				$regione->load();
@@ -59,9 +103,8 @@ class CampioniModelCampioni extends JModel
 				$campione->prov_nome = $provincia->provincia;
 				$campione->regione = $regione->regione;
 			}
-			$this->_campioni = $this->_filterByRegione( $this->_campioni );
 		}
-		return $this->_campioni;
+		return $this->_allCampioni;
 	}
 
 	function _filterByRegione( $campioni )
@@ -82,10 +125,57 @@ class CampioniModelCampioni extends JModel
 		return $campioniFilterd;
 	}
 
+	function _getNumCampioniForRegione($regioni)
+	{
+		$campioni = $this->getAllCampioni();
+		$numCampioni = array();
+		foreach ($campioni as $campione) {
+			$numCampioni[$campione->id_regione] += 1;
+		}
+		foreach ($regioni as $regione) {
+			$regione->numCampioni = $numCampioni[$regione->id];
+		}
+		return $regioni;
+	}
+
+	// @return ObjectList
 	function getRegioni()
 	{
-		$regione = $this->getTable( 'Regione', 'Table' );
-		return $regione->loadAll();
+		if ( empty($this->_regioni) )
+		{
+			$regione = $this->getTable( 'Regione', 'Table' );
+			$regioni = $regione->loadAll();
+			$regioni = $this->_getNumCampioniForRegione($regioni);
+			$this->_regioni = $regioni;
+		}
+		return $this->_regioni;
 	}
+
+	function getPagination()
+	{
+		if (empty($this->_pagination))
+		{
+			// import the pagination library
+			jimport('joomla.html.pagination');
+			// prepare the pagination values
+			$total = $this->getTotal();
+			$limitstart = $this->getState('limitstart');
+			$limit = $this->getState('limit');
+			// create the pagination object
+			$this->_pagination = new JPagination($total, $limitstart, $limit);
+		}
+		return $this->_pagination;
+	}
+
+	function getTotal()
+	{
+		if (empty($this->_total))
+		{
+			$this->_total = count($this->getFilteredCampioni());
+		}
+		return $this->_total;
+
+	}
+
 }
 ?>

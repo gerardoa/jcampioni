@@ -35,7 +35,15 @@ $rows = $this->campioni;
 	        <th>Figli eta media</th>
 	        <th><?php echo JHTML::_('grid.sort', 'Data Richiesta', 'registrazione', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 	      </tr> 
-	    </thead> 
+	    </thead>
+	    <tfoot>
+			<tr>
+				<td colspan="16">
+					<?php echo $this->pageNav->getListFooter(); ?>
+				</td>
+			</tr>
+		</tfoot> 
+		<tbody>
 	    <?php
 	    $k = 0;
 	    for ($i=0, $n=count( $rows ); $i < $n; $i++) 
@@ -100,6 +108,7 @@ $rows = $this->campioni;
 	      $k = 1 - $k; 
 	    } 
 	    ?> 
+	  </tbody>
 	  </table> 
 	  <input type="hidden" name="option" value="com_campioni" /> 
 	  <input type="hidden" name="task" value="" /> 

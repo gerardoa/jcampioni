@@ -21,14 +21,17 @@ class CampioniViewCampioni extends JView
 		
 		$filterRegioneId = $mainframe->getUserStateFromRequest( $option.'filter_regioneid', 'filter_regioneid' );
 		$regioni = $this->get( 'Regioni' );
+		foreach ($regioni as $regione) {
+			$regione->optionText = $regione->regione . ' (' . $regione->numCampioni . ')';
+		}
 		$options = array();
-		$options[] = JHTML::_( 'select.option', '0', '- '.JText::_('Tutte le Regioni').' -', 'id', 'regione' );
+		$options[] = JHTML::_( 'select.option', '0', '- '.JText::_('Tutte le Regioni').' -', 'id', 'optionText' );
 		// append database results
 		$options = array_merge( $options, $regioni );
 		$js = 'onchange="document.adminForm.submit();"';
-		$lists['regioneid'] = JHTML::_( 'select.genericlist', $options, 'filter_regioneid', 'class="inputbox" size="1" '.$js, 'id', 'regione', $filterRegioneId);
+		$lists['regioneid'] = JHTML::_( 'select.genericlist', $options, 'filter_regioneid', 'class="inputbox" size="1" '.$js, 'id', 'optionText', $filterRegioneId);
 		
-		
+		$this->assignRef( 'pageNav', $this->get( 'Pagination') );
 		$this->assignRef( 'lists', $lists );
 		$campioni = $this->get( 'Campioni' );
 		$this->assignRef( 'campioni', $campioni );

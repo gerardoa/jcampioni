@@ -2,11 +2,11 @@
 <install type="component" version="1.5.0">
  <name>Campioni</name>
  <!-- The following elements are optional and free of formatting conttraints -->
- <creationDate>2009-03-24</creationDate>
+ <creationDate>2009-03-26</creationDate>
  <author>Gerardo Adelizzi</author>
  <authorEmail>g.adelizzi@gmail.com</authorEmail>
  <!--  The version string is recorded in the components table -->
- <version>1.2</version>
+ <version>1.3</version>
  <!-- The description is optional and defaults to the name -->
  <description>Richiesta campioni</description>
  
