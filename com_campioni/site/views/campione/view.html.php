@@ -7,19 +7,21 @@ class CampioneViewCampione extends JView
 {
 	function display( $tpl = null )
 	{
-		$kitMap = $this->get( 'KitMap' );
-		$kit = array ( array( 'value' => '', 'text' => 'Seleziona qui') );
-		foreach ($kitMap as $value => $text) {
-			$kit[] = array( 'value' => $value, 'text' => $text );
-		}
-		$lists['kit'] = JHTML::_( 'select.genericlist', $kit, 'kit' );
 		
 		$model = $this->getModel();
 		$errors = $model->getErrors();
 		if ( !empty($errors) ) {
 			$errorsHtml = $this->_listErrors( $errors );
+			$campione = $model->getBadCampione();
 			JError::raiseWarning( '', $errorsHtml );
 		}
+		$kitMap = $this->get( 'KitMap' );
+		$kit = array ( array( 'value' => '', 'text' => 'Seleziona qui') );
+		foreach ($kitMap as $value => $text) {
+			$kit[] = array( 'value' => $value, 'text' => $text );
+		}
+		$campioneKit = array_keys($kitMap, $campione->kit);
+		$lists['kit'] = JHTML::_( 'select.genericlist', $kit, 'kit', null, 'value', 'text', $campioneKit[0] );		
 		// Load the form validation behavior
 		JHTML::_('behavior.formvalidation');
 		$document = JFactory::getDocument();
@@ -28,9 +30,10 @@ class CampioneViewCampione extends JView
                         window.onload = function() {
                                 greeting = new Fx.Slide('greetingContainer', {height: true, opacity: true, duration: 500});
                                 greeting.hide();
+                                addFigli();
                         }       
                 ");
- $document->addScriptDeclaration("
+		$document->addScriptDeclaration("
 	function appendFiglio(testo) {
 	 var row = $('figliHolder').insertRow(-1);
 	 row.setAttribute( 'id', 'figlio' );
@@ -50,8 +53,8 @@ class CampioneViewCampione extends JView
 	 input.setAttribute('type', 'text');
 	 input.setAttribute('id', 'figlio');
 	 input.setAttribute('name', 'figli[]');
-	 input.setAttribute('size', '5');
-	 input.setAttribute('maxlength', '3');
+	 input.setAttribute('size', '4');
+	 input.setAttribute('maxlength', '2');
 	 //input.setAttribute('value', '');
 	 cell2.appendChild( input );
 }
@@ -76,14 +79,15 @@ function removeFigli() {
 		table.deleteRow(i-1);
 	}
 } ");
+		$this->assignRef( 'campione', $campione );
 		$this->assignRef( 'lists', $lists );
 		parent::display( $tpl );
 	}
-	
-	function _listErrors( $errors ) 
+
+	function _listErrors( $errors )
 	{
 		if ( empty($errors) )
-			return '';
+		return '';
 		//$html = '<ul>';
 		foreach ($errors as $content) {
 			if ( is_array( $content ) ) {

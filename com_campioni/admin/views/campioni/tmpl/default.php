@@ -20,19 +20,19 @@ $rows = $this->campioni;
 	               value="" onclick="checkAll(<?php echo 
 	               count( $rows ); ?>);" /> 
 	        </th>
-	        <th>Id</th>
-	        <th>IP</th> 
-	        <th>Nome</th>
-	        <th>Cognome</th>
-	        <th>Età</th>
-	        <th>E-Mail</th>
+	        <th><?php echo JHTML::_('grid.sort', 'ID', 'id', $this->lists['order_Dir'], $this->lists['order']); ?></th>
+	        <th><?php echo JHTML::_('grid.sort', 'IP', 'ip', $this->lists['order_Dir'], $this->lists['order']); ?></th> 
+	        <th><?php echo JHTML::_('grid.sort', 'Nome', 'nome', $this->lists['order_Dir'], $this->lists['order']); ?></th>
+	        <th><?php echo JHTML::_('grid.sort', 'Cognome', 'cognome', $this->lists['order_Dir'], $this->lists['order']); ?></th>
+	        <th><?php echo JHTML::_('grid.sort', 'Età', 'eta', $this->lists['order_Dir'], $this->lists['order']); ?></th>
+	        <th><?php echo JHTML::_('grid.sort', 'E-Mail', 'email', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 	        <th>Indirizzo</th>
-	        <th>Provincia</th>
-	        <th>Città</th>
-	        <th>CAP</th>
-	        <th>Kit</th>
-	        <th>N. Figli</th>
-	        <th>Figli eta media</th>
+	        <th><?php echo JHTML::_('grid.sort', 'Provincia', 'provincia', $this->lists['order_Dir'], $this->lists['order']); ?></th>
+	        <th><?php echo JHTML::_('grid.sort', 'Città', 'citta', $this->lists['order_Dir'], $this->lists['order']); ?></th>
+	        <th><?php echo JHTML::_('grid.sort', 'CAP', 'cap', $this->lists['order_Dir'], $this->lists['order']); ?></th>
+	        <th><?php echo JHTML::_('grid.sort', 'Kit', 'kit', $this->lists['order_Dir'], $this->lists['order']); ?></th>
+	        <th><?php echo JHTML::_('grid.sort', 'N. Figli', 'figli_num', $this->lists['order_Dir'], $this->lists['order']); ?></th>
+	        <th><?php echo JHTML::_('grid.sort', 'Figli eta media', 'figli_eta_media', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 	        <th><?php echo JHTML::_('grid.sort', 'Data Richiesta', 'registrazione', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 	      </tr> 
 	    </thead>
@@ -73,7 +73,7 @@ $rows = $this->campioni;
 	          <?php echo $row->eta; ?> 
 	        </td>
 	        <td> 
-	          <?php echo $row->email; ?> 
+	          <a href="mailto:<?php echo $row->email; ?>"><?php echo $row->email; ?></a> 
 	        </td>
 	        <td> 
 	          <?php echo $row->indirizzo; ?> 

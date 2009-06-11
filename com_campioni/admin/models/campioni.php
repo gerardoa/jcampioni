@@ -5,24 +5,38 @@ jimport('joomla.application.component.model');
 
 class CampioniModelCampioni extends JModel
 {
+	var $_ids = null;
 	var $_campioni;
+	
 	var $_filteredCampioni;
 	var $_allCampioni;
-	var $tableName = '#__campioni_richieste';
+	var $_regioni;
+	
+	var $tableName;
 	var $_pagination;
 	var $_total;
-	var $_regioni;
+
 
 	function __construct()
 	{
 		global $mainframe, $option;
 		parent::__construct();
+		$table = $this->getTable( 'campione' );
+		$this->tableName = $table->getTableName();
+		$ids = JRequest::getVar( 'cid', null, 'default', 'array' ); 
+		$this->setIds( $ids );
 		// Get the pagination request variables
 		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
 		$limitStart = $mainframe->getUserStateFromRequest($option.'limitstart', 'limitstart', 0);
 		// set the state pagination variables
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitStart);
+	}
+	
+	function setIds( $ids )
+	{
+		$this->_ids = $ids;
+		$this->_campioni = null;
 	}
 
 	function _buildQuery()
@@ -37,7 +51,7 @@ class CampioniModelCampioni extends JModel
 		global $mainframe, $option;
 
 		// Array of allowable order fields
-		$orders = array('registrazione', 'provincia', 'id');
+		$orders = array('registrazione', 'provincia', 'id', 'ip', 'nome', 'cognome', 'eta', 'email', 'citta', 'cap', 'kit', 'figli_num', 'figli_eta_media');
 		// get the order field and direction
 		$filterOrder = $mainframe->getUserStateFromRequest( $option.'filter_order', 'filter_order', 'registrazione');
 		$filterOrderDir = strtoupper($mainframe->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir', 'DESC' ));
@@ -175,6 +189,20 @@ class CampioniModelCampioni extends JModel
 		}
 		return $this->_total;
 
+	}
+	
+	function delete()
+	{
+		$row = $this->getTable( 'campione' );
+		$cids = $this->_ids;
+		foreach ($cids as $cid) {
+			if ( !$row->delete($cid) )
+			{
+				$this->setError( $row->getErrorMsg() );
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

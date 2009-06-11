@@ -1,5 +1,7 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+$campione = $this->campione;
+?>
 
 <form action="<?php echo JRoute::_( 'index.php?option=com_campioni' ); ?>" method="post" id="josForm" name="josForm" class="form-validate">
 
@@ -18,7 +20,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</label>
 	</td>
   	<td>
-  		<input type="text" name="nome" id="nome" size="30" value="<?php echo '';?>" class="inputbox required" maxlength="25" /> *
+  		<input type="text" name="nome" id="nome" size="30" value="<?php echo $campione->nome;?>" class="inputbox required" maxlength="25" /> *
   	</td>
 </tr>
 <tr>
@@ -28,7 +30,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</label>
 	</td>
 	<td>
-		<input type="text" id="cognome" name="cognome" size="30" value="<?php echo '';?>" class="inputbox required" maxlength="25" /> *
+		<input type="text" id="cognome" name="cognome" size="30" value="<?php echo $campione->cognome;?>" class="inputbox required" maxlength="25" /> *
 	</td>
 </tr>
 <tr>
@@ -38,7 +40,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</label>
 	</td>
 	<td>
-		<input type="text" id="eta" name="eta" size="5" value="<?php echo '';?>" class="inputbox required" maxlength="3" /> *
+		<input type="text" id="eta" name="eta" size="5" value="<?php echo $campione->eta;?>" class="inputbox required" maxlength="3" /> *
 	</td>
 </tr>
 <tr>
@@ -48,7 +50,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</label>
 	</td>
   	<td>
-  		<input class="inputbox required" type="text" id="indirizzo" name="indirizzo" size="40" maxlength="40" value="<?php echo '';?>" /> *
+  		<input class="inputbox required" type="text" id="indirizzo" name="indirizzo" size="40" maxlength="40" value="<?php echo $campione->indirizzo;?>" /> *
   	</td>
 </tr>
 <tr>
@@ -58,7 +60,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</label>
 	</td>
   	<td>
-  		<input class="inputbox required" type="text" id="provincia" name="provincia" size="4" maxlength="2" value="<?php echo '';?>" /> * <span>2 Lettere</span>
+  		<input class="inputbox required" type="text" id="provincia" name="provincia" size="4" maxlength="2" value="<?php echo $campione->provincia;?>" /> * <span>2 Lettere</span>
   	</td>
 </tr>
 <tr>
@@ -68,7 +70,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</label>
 	</td>
   	<td>
-  		<input class="inputbox required" type="text" id="citta" name="citta" size="25" maxlength="20" value="<?php echo '';?>" /> *
+  		<input class="inputbox required" type="text" id="citta" name="citta" size="25" maxlength="20" value="<?php echo $campione->citta;?>" /> *
   	</td>
 </tr>
 <tr>
@@ -78,7 +80,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</label>
 	</td>
   	<td>
-  		<input class="inputbox required" type="text" id="cap" name="cap" size="10" maxlength="5" value="<?php echo '';?>" /> * <span>5 Cifre</span>
+  		<input class="inputbox required" type="text" id="cap" name="cap" size="10" maxlength="5" value="<?php echo $campione->cap;?>" /> * <span>5 Cifre</span>
   	</td>
 </tr>
 <tr>
@@ -98,9 +100,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</label>
 	</td>
   	<td id="sceltaFigli">
-  		SI <input type="radio" id="figli" name="figli"  value="" onclick="addFigli();"/>
+  		SI <input type="radio" id="figliC" name="figliC"  value="" onclick="addFigli();" checked="checked"/>
   		<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-  		NO <input type="radio" id="figli" name="figli"  value="" onclick="removeFigli();"/>
+  		NO <input type="radio" id="figliC" name="figliC"  value="" onclick="removeFigli();"/>
   	</td>
 </tr>
 <tr><td colspan="2">

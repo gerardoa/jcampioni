@@ -72,5 +72,20 @@ class TableCampione extends JTable
 			return false;
 		return true;
 	}
+	
+	function getStatoDefault()
+	{
+		return 0;
+	}
+	
+	function getKitMap() 
+	{
+		$kit = array( 
+			'1' => 'Benessere gambe',
+			'2' => 'Igiene intima',
+		    '3' => 'Bambino'
+		);
+		return $kit;
+	}
 }
 ?>

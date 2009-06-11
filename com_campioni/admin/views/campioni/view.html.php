@@ -9,7 +9,7 @@ class CampioniViewCampioni extends JView
 	{
 		global $mainframe, $option;
 		JToolBarHelper::title( JText::_('Campioni') );
-		//JToolBarHelper::addNew();
+		JToolBarHelper::addNew();
 		//JToolBarHelper::editList();
 		JToolBarHelper::deleteListX( JText::_('Vuoi davvero eliminarlo/i?') );
 		

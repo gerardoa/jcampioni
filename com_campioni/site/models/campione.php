@@ -7,16 +7,19 @@ class CampioneModelCampione extends JModel
 {
 	var $tableRichieste = '#__campioni_richieste';
 	var $_numOrder = null;
+	var $_badCampione = null;
 	
 	function save() 
 	{
 		$err = false;
 		//Getting data
 		$user = JFactory::getUser();
+		$campione = $this->getTable();
 		JRequest::setVar( "registrazione", date("Y-m-d")." - ".date("H:i:s") );
 		JRequest::setVar( "ip", $_SERVER["REMOTE_ADDR"] );
 		JRequest::setVar( "id_utente", $user->id );
 		JRequest::setVar( 'email', $user->email );
+		JRequest::setVar( 'richiesta_stato', $campione->getStatoDefault() );
 		if ( !$this->_bindFigli() ) {
 			$err = true;
 		}
@@ -28,10 +31,8 @@ class CampioneModelCampione extends JModel
 		} else {
 			JRequest::setVar( 'kit', $kitName );
 		}
-		$campione = $this->getTable();
-		
-		if ( !$campione->bind(JRequest::get('post')) )
-		{
+		$binded = $campione->bind(JRequest::get('post'));
+		if ( !$binded  ) {
 			$this->setError( $campione->getErrors() );
 			return false;
 		}
@@ -40,6 +41,8 @@ class CampioneModelCampione extends JModel
 		{
 			$this->setError( $campione->getErrors() );
 			$err = true;
+			// To show information in case of an error
+			$this->_badCampione = $campione;
 		}
 		
 		if ( $err ) {
@@ -58,11 +61,8 @@ class CampioneModelCampione extends JModel
 	
 	function getKitMap() 
 	{
-		$kit = array( 
-			'1' => 'Benessere gambe',
-			'2' => 'Igiene intima',
-		    '3' => 'Bambino'
-		);
+		$campione = $this->getTable();
+		$kit = $campione->getKitMap();
 		return $kit;
 	}
 	
@@ -109,6 +109,11 @@ class CampioneModelCampione extends JModel
 		} else {
 			return false;
 		}
+	}
+	
+	function getBadCampione()
+	{
+		return $this->_badCampione;
 	}
 }
 ?>
