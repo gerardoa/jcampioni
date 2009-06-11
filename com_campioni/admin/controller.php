@@ -19,6 +19,7 @@ class CampioniController extends JController
 		}
 		else 
 		{
+			$msg = JText::_( 'Errore durante l\'eliminazione dei records' );
 		}
 		$link = 'index.php?option=com_campioni';
 		$this->setRedirect($link, $msg);

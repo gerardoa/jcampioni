@@ -1,7 +1,17 @@
 <?php defined('_JEXEC') or die('Restricted access'); 
 $rows = $this->campioni;
 ?>
-	  <form action="index.php" method="post" name="adminForm"> 
+	  <form action="index.php" method="post" name="adminForm">
+	  <table>
+    	<tr>
+         <td align="left" width="100%">
+         </td>
+         <td nowrap="nowrap">
+             <?php echo $this->lists['regioneid']; ?>
+         </td>
+    	</tr>
+	</table>
+	   
 	  <table class="adminlist"> 
 	    <thead> 
 	      <tr> 
@@ -23,7 +33,7 @@ $rows = $this->campioni;
 	        <th>Kit</th>
 	        <th>N. Figli</th>
 	        <th>Figli eta media</th>
-	        <th>Data richiesta</th>
+	        <th><?php echo JHTML::_('grid.sort', 'Data Richiesta', 'registrazione', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 	      </tr> 
 	    </thead> 
 	    <?php
@@ -65,7 +75,7 @@ $rows = $this->campioni;
 	          if ( !$row->prov_nome ) {
 	          	$row->prov_nome = 'sigla non trovata';
 	          }       
-	          echo $row->provincia . ' (' . $row->prov_nome .')'; ?> 
+	          echo $row->provincia . ' (' . $row->prov_nome . ' | ' .$row->regione .')'; ?> 
 	        </td>
 	        <td> 
 	          <?php echo $row->citta; ?> 
@@ -94,5 +104,7 @@ $rows = $this->campioni;
 	  <input type="hidden" name="option" value="com_campioni" /> 
 	  <input type="hidden" name="task" value="" /> 
 	  <input type="hidden" name="boxchecked" value="0" /> 
+	  <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+	  <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
 	  <?php echo JHTML::_( 'form.token' ); ?>
 	  </form> 

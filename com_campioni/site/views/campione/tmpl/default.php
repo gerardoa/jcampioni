@@ -38,7 +38,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</label>
 	</td>
 	<td>
-		<input type="text" id="eta" name="eta" size="10" value="<?php echo '';?>" class="inputbox required" maxlength="3" /> *
+		<input type="text" id="eta" name="eta" size="5" value="<?php echo '';?>" class="inputbox required" maxlength="3" /> *
 	</td>
 </tr>
 <tr>
@@ -58,7 +58,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</label>
 	</td>
   	<td>
-  		<input class="inputbox required" type="text" id="provincia" name="provincia" size="4" maxlength="2" value="<?php echo '';?>" /> *
+  		<input class="inputbox required" type="text" id="provincia" name="provincia" size="4" maxlength="2" value="<?php echo '';?>" /> * <span>2 Lettere</span>
   	</td>
 </tr>
 <tr>
@@ -78,7 +78,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</label>
 	</td>
   	<td>
-  		<input class="inputbox required" type="text" id="cap" name="cap" size="10" maxlength="5" value="<?php echo '';?>" /> *
+  		<input class="inputbox required" type="text" id="cap" name="cap" size="10" maxlength="5" value="<?php echo '';?>" /> * <span>5 Cifre</span>
   	</td>
 </tr>
 <tr>

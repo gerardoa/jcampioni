@@ -14,11 +14,11 @@ class CampioneController extends JController
 	{
 		$user = JFactory::getUser();
 		$model = $this->getModel();
-		if ( $model->isPresentJoomlaUser($user->id) ) {
+		if ( ($user->gid < 19) && $model->isPresentJoomlaUser($user->id) ) {
 			JError::raiseWarning( '', 'Hai gia richiestro un campione' );
 			return false;
 		}
-		if ( !$model->store() ) {
+		if ( !$model->save() ) {
 			$view = $this->getView( 'campione', 'html' );
   			$view->setModel( $model, true );
 			$view->display();

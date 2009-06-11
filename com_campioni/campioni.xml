@@ -2,11 +2,11 @@
 <install type="component" version="1.5.0">
  <name>Campioni</name>
  <!-- The following elements are optional and free of formatting conttraints -->
- <creationDate>2009-03-20</creationDate>
+ <creationDate>2009-03-24</creationDate>
  <author>Gerardo Adelizzi</author>
  <authorEmail>g.adelizzi@gmail.com</authorEmail>
  <!--  The version string is recorded in the components table -->
- <version>1.1</version>
+ <version>1.2</version>
  <!-- The description is optional and defaults to the name -->
  <description>Richiesta campioni</description>
  
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `jos_campioni_richieste` (
   `indirizzo` varchar(64) NOT NULL,
   `provincia` varchar(32) NOT NULL,
   `citta` varchar(32) NOT NULL,
-  `cap` int(11) NOT NULL,
+  `cap` int(5) unsigned zerofill NOT NULL,
   `kit` varchar(64) NOT NULL,
   `richiesta_stato` varchar(32) DEFAULT NULL,
   `figli_num` tinyint(4) DEFAULT NULL,
@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `jos_campioni_richieste` (
    <filename>models/index.html</filename>
    <filename>tables/campione.php</filename>
    <filename>tables/provincia.php</filename>
+   <filename>tables/regione.php</filename>
    <filename>tables/index.html</filename>
    <filename>views/index.html</filename>
    <filename>views/campioni/index.html</filename>

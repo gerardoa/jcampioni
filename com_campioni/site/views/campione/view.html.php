@@ -50,8 +50,8 @@ class CampioneViewCampione extends JView
 	 input.setAttribute('type', 'text');
 	 input.setAttribute('id', 'figlio');
 	 input.setAttribute('name', 'figli[]');
-	 input.setAttribute('size', '10');
-	 input.setAttribute('maxlength', '10');
+	 input.setAttribute('size', '5');
+	 input.setAttribute('maxlength', '3');
 	 //input.setAttribute('value', '');
 	 cell2.appendChild( input );
 }

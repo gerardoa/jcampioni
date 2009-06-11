@@ -8,7 +8,7 @@ class CampioneModelCampione extends JModel
 	var $tableRichieste = '#__campioni_richieste';
 	var $_numOrder = null;
 	
-	function store() 
+	function save() 
 	{
 		$err = false;
 		//Getting data
