@@ -8,7 +8,7 @@ class CampioniViewCampione extends JView
 	function display( $tpl = null )
 	{
 		$campione = $this->getModel();
-		$isNew = ( $campione->id < 1 );
+		$isNew = ( $campione->getId() < 1 );
 		$text = ($isNew) ? JText::_( 'New' ) : JText::_( 'Edit' );
 		
 		JToolBarHelper::title( JText::_('Campione') . ':<small>[ ' . $text . ' ]</small>');

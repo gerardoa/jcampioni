@@ -80,10 +80,12 @@ $rows = $this->campioni;
 	        </td>
 	        <td> 
 	          <?php 
-	          if ( !($provinciaNome = $row->getProvinciaNome()) ) {
+	          $provincia = $row->getProvincia();
+	          $regione = $provincia->getRegione();
+	          if ( !($provinciaNome = $provincia->getNome() ) ) {
 	          	$provinciaNome = 'sigla non trovata';
 	          }      
-	          echo $row->getProvincia() . ' (' . $row->getProvinciaNome() . ' | ' .$row->getRegione() .')'; ?> 
+	          echo $provincia->getSigla() . ' (' . $provinciaNome . ' | ' . $regione->getNome() .')'; ?> 
 	        </td>
 	        <td> 
 	          <?php echo $row->getCitta(); ?> 

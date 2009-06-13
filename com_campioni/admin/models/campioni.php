@@ -8,14 +8,15 @@ class CampioniModelCampioni extends JModel
 {
 	var $_ids = null;
 	var $_campioni;
-	
+
 	var $_filteredCampioni;
 	var $_allCampioni;
 	var $_regioni;
-	
+
 	var $_tableName;
 	var $_pagination;
 	var $_total;
+	var $_mapNumCampioni = array();
 
 
 	function __construct()
@@ -24,7 +25,7 @@ class CampioniModelCampioni extends JModel
 		parent::__construct();
 		$table = $this->getTable( 'campione' );
 		$this->_tableName = $table->getTableName();
-		$ids = JRequest::getVar( 'cid', null, 'default', 'array' ); 
+		$ids = JRequest::getVar( 'cid', null, 'default', 'array' );
 		$this->setIds( $ids );
 		$this->campioni = array();
 		// Get the pagination request variables
@@ -34,7 +35,7 @@ class CampioniModelCampioni extends JModel
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitStart);
 	}
-	
+
 	function setIds( $ids )
 	{
 		$this->_ids = $ids;
@@ -84,14 +85,14 @@ class CampioniModelCampioni extends JModel
 			$limitStart = $this->getState('limitstart');
 			$limit = $this->getState('limit');
 			if ( $limit == 0 ) {
-				$this->_campioni = $campioni;				
+				$this->_campioni = $campioni;
 			} else {
 				$this->_campioni = array_slice($campioni, $limitStart, $limit);
 			}
 		}
 		return $this->_campioni;
 	}
-	
+
 	function getFilteredCampioni()
 	{
 		if (empty( $this->_filteredCampioni ))
@@ -123,7 +124,9 @@ class CampioniModelCampioni extends JModel
 		}
 		$campioniFilterd = array();
 		foreach ($campioni as $campione) {
-			if ( $campione->getRegioneId() !== $filterRegioneId ) {
+			$provincia = $campione->getProvincia();
+			$regione = $provincia->getRegione();
+			if ( $regione->getId() !== $filterRegioneId ) {
 				continue;
 			}
 			$campioniFilterd[] = $campione;
@@ -131,32 +134,20 @@ class CampioniModelCampioni extends JModel
 		return $campioniFilterd;
 	}
 
-	function _getNumCampioniForRegione($regioni)
+	function getNumCampioniByRegione( $regioneArg )
 	{
-		$campioni = $this->getAllCampioni();
-		$numCampioni = array();
-		foreach ($campioni as $campione) {
-			$numCampioni[$campione->getRegioneId()] += 1;
+		if ( empty($this->_mapNumCampioni)) {
+			$campioni = $this->getAllCampioni();
+			foreach ($campioni as $campione) {
+				$provincia = $campione->getProvincia();
+				$regione = $provincia->getRegione();
+				$this->_mapNumCampioni[$regione->getId()] += 1;
+			}
+			/*foreach ($regioni as $regione) {
+			 $regione->numCampioni = $numCampioni[$regione->id];
+			 }*/
 		}
-		foreach ($regioni as $regione) {
-			$regione->numCampioni = $numCampioni[$regione->id];
-		}
-		return $regioni;
-	}
-
-	/**
-	 * @return ObjectList
-	 */ 
-	function getRegioni()
-	{
-		if ( empty($this->_regioni) )
-		{
-			$regione = $this->getTable( 'Regione', 'Table' );
-			$regioni = $regione->loadAll();
-			$regioni = $this->_getNumCampioniForRegione($regioni);
-			$this->_regioni = $regioni;
-		}
-		return $this->_regioni;
+		return $this->_mapNumCampioni[$regioneArg->getId()];
 	}
 
 	function getPagination()
@@ -184,7 +175,7 @@ class CampioniModelCampioni extends JModel
 		return $this->_total;
 
 	}
-	
+
 	function delete()
 	{
 		$row = $this->getTable( 'campione' );
@@ -198,7 +189,7 @@ class CampioniModelCampioni extends JModel
 		}
 		return true;
 	}
-	
+
 	function _loadCampioni( $objList ) {
 		$this->_allCampioni = array();
 		foreach ( $objList as $obj) {
@@ -212,18 +203,23 @@ class CampioniModelCampioni extends JModel
 			$campione->setEta( $obj->eta );
 			$campione->setEmail( $obj->email );
 			$campione->setIndirizzo( $obj->indirizzo );
-			$campione->setProvincia( $obj->provincia );
 			$campione->setCitta( $obj->citta );
 			$campione->setCap( $obj->cap );
 			$campione->setKit( $obj->kit );
 			$campione->setRichiestaStato( $obj->richiesta_stato );
-			
+				
 			$table = $campione->getTableCampione();
+			$table->provincia = $obj->provincia;
 			$table->figli_num = $obj->figli_num;
 			$table->figli_eta_media = $obj->figli_eta_media;
-			
+				
 			$this->_allCampioni[] = $campione;
 		}
+	}
+	
+	function setDelivered( $bool = true )
+	{
+		
 	}
 
 }

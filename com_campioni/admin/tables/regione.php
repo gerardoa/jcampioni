@@ -9,15 +9,6 @@ class TableRegione extends JTable
 	function __construct(&$db)
 	{
 		parent::__construct( 'regioni', 'id', $db );
-	}
-	
-	function loadAll()
-	{
-		$db = $this->getDBO();
-		$query = 'SELECT * FROM ' . $this->getTableName() . ' ORDER BY regione';
-		$db->setQuery( $query );
-		return $db->loadObjectList();
-	}
-	
+	}	
 }
 ?>

@@ -11,25 +11,14 @@ class CampioniViewCampioni extends JView
 		JToolBarHelper::title( JText::_('Campioni') );
 		JToolBarHelper::addNew();
 		//JToolBarHelper::editList();
+		JToolBarHelper::customX( 'delivered', '', '', JText::_('Spedito') );
 		JToolBarHelper::deleteListX( JText::_('Vuoi davvero eliminarlo/i?') );
 		
 		$lists = array();
-		$filterOrder = $mainframe->getUserStateFromRequest( $option.'filter_order', 'filter_order', 'registrazione' );
-		$filterOrderDir = $mainframe->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir', 'DESC' );
-		$lists['order'] = $filterOrder; 
-		$lists['order_Dir'] = $filterOrderDir;
-		
-		$filterRegioneId = $mainframe->getUserStateFromRequest( $option.'filter_regioneid', 'filter_regioneid' );
-		$regioni = $this->get( 'Regioni' );
-		foreach ($regioni as $regione) {
-			$regione->optionText = $regione->regione . ' (' . $regione->numCampioni . ')';
-		}
-		$options = array();
-		$options[] = JHTML::_( 'select.option', '0', '- '.JText::_('Tutte le Regioni').' -', 'id', 'optionText' );
-		// append database results
-		$options = array_merge( $options, $regioni );
-		$js = 'onchange="document.adminForm.submit();"';
-		$lists['regioneid'] = JHTML::_( 'select.genericlist', $options, 'filter_regioneid', 'class="inputbox" size="1" '.$js, 'id', 'optionText', $filterRegioneId);
+		$lists['order'] = $mainframe->getUserStateFromRequest( $option.'filter_order', 'filter_order', 'registrazione' );
+		$lists['order_Dir'] = $mainframe->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir', 'DESC' );
+
+		$lists['regioneid'] = $this->_regioniToSelectList();
 		
 		$this->assignRef( 'pageNav', $this->get( 'Pagination') );
 		$this->assignRef( 'lists', $lists );
@@ -37,6 +26,28 @@ class CampioniViewCampioni extends JView
 		$this->assignRef( 'campioni', $campioni );
 		
 		parent::display( $tpl );
+	}
+	
+	function _regioniToSelectList() 
+	{
+		global $mainframe, $option;
+		$campioni = $this->getModel();
+		$modelRegioni = $this->getModel( 'regioni' );		
+		$regioni = $modelRegioni->findAll();
+		$regioniSelect = array();
+		foreach ($regioni as $regione) {
+			$regioneSelect = new stdClass();
+			$regioneSelect->id = $regione->getId(); 
+			$regioneSelect->optionText = $regione->getNome() . ' (' . $campioni->getNumCampioniByRegione($regione) . ')';
+			$regioniSelect[] = $regioneSelect;
+		}
+		$options = array();
+		$options[] = JHTML::_( 'select.option', '0', '- '.JText::_('Tutte le Regioni').' -', 'id', 'optionText' );
+		// append database results
+		$options = array_merge( $options, $regioniSelect );
+		$js = 'onchange="document.adminForm.submit();"';
+		$filterRegioneId = $mainframe->getUserStateFromRequest( $option.'filter_regioneid', 'filter_regioneid' );
+		return JHTML::_( 'select.genericlist', $options, 'filter_regioneid', 'class="inputbox" size="1" '.$js, 'id', 'optionText', $filterRegioneId);
 	}
 }
 ?>

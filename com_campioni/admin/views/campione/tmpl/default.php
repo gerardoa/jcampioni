@@ -42,7 +42,7 @@ $campione = $this->campione;
 		</td>
 	</tr>
 	<tr>
-		<td><label id="etaemsg" for="eta"> <?php echo JText::_( 'Età' ); ?>: </label></td>
+		<td width="100" align="right" class="key"><label id="etaemsg" for="eta"> <?php echo JText::_( 'Età' ); ?>: </label></td>
 		<td><input type="text" id="eta" name="eta" size="5"
 			value="<?php echo $campione->getEta();?>" class="inputbox required"
 			maxlength="3" /> *</td>
@@ -55,11 +55,11 @@ $campione = $this->campione;
 			value="<?php echo $campione->getIndirizzo();?>" /></td>
 	</tr>
 	<tr>
-		<td><label id="provinciamsg" for="provincia"> <?php echo JText::_( 'Provincia' ); ?>:
+		<td width="100" align="right" class="key"><label id="provinciamsg" for="provincia"> <?php echo JText::_( 'Provincia' ); ?>:
 		</label></td>
 		<td><input class="inputbox required" type="text" id="provincia"
 			name="provincia" size="4" maxlength="2"
-			value="<?php echo $campione->getProvincia();?>" /> * <span>2 Lettere</span>
+			value="<?php $provincia = $campione->getProvincia(); echo $provincia->getNome(); ?>" /> * <span>2 Lettere</span>
 		</td>
 	</tr>
 	<tr>
@@ -69,14 +69,14 @@ $campione = $this->campione;
 			size="32" maxlength="250" value="<?php echo $campione->getCitta();?>" /></td>
 	</tr>
 	<tr>
-		<td height="40"><label id="capmsg" for="cap"> <?php echo JText::_( 'CAP' ); ?>:
+		<td width="100" align="right" class="key"><label id="capmsg" for="cap"> <?php echo JText::_( 'CAP' ); ?>:
 		</label></td>
 		<td><input class="inputbox required" type="text" id="cap" name="cap"
 			size="10" maxlength="5" value="<?php echo $campione->getCap();?>" /> * <span>5
 		Cifre</span></td>
 	</tr>
 	<tr>
-	<td height="40">
+	<td  width="100" align="right" class="key">
 		<label id="kitmsg" for="kit">
 			<?php echo JText::_( 'KIT' ); ?>:
 		</label>

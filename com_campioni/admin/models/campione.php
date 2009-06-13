@@ -8,168 +8,154 @@ class CampioniModelCampione extends JModel
 	var $_campione = null;
 	var $_provincia = null;
 	var $_regione = null;
-	
+
 	var $_username = null;
-	
+
 	function __construct()
 	{
 		parent::__construct();
 		$id = JRequest::getVar( 'cid', null, 'default', 'array' );
 		$this->_campione = $this->getTable();
-		$this->_provincia = $this->getTable( 'Provincia', 'Table' );
-	    $this->_regione = $this->getTable( 'Regione', 'Table' );
-		$this->_campione->id = $id[0];			
+		$this->_provincia = $this->getInstance( 'provincia', 'CampioniModel' );
+		$this->_regione = $this->getInstance( 'regione', 'CampioniModel' );
+		$this->_campione->id = $id[0];
 	}
-	
+
 	function getTableCampione(){
 		return $this->_campione;
 	}
-	
-	function getProvinciaId() {
-		return $this->_provincia->id;
-	}
-	
-	function getProvinciaNome() {
-		return $this->_provincia->provincia;
-	}
-	
-	function getRegioneId() {
-		return $this->_regione->id;
-	}
-	 
+
 	function getRegione() {
-		return $this->_regione->regione;
+		return $this->_regione;
 	}
-	
+
 	function setId( $id ) {
-		$this->_campione->id = $id;
-		//TODO: check if it's a new table
 		$this->_campione = $this->getTable();
+		$this->_campione->id = $id;
 	}
-	
+
 	function getId() {
 		return $this->_campione->id;
 	}
-	
-	
+
+
 	function setIdUtente( $idUtente ) {
 		$this->_campione->id_utente = $idUtente;
 	}
-	
+
 	function getIdUtente() {
 		return $this->_campione->id_utente;
 	}
-	
+
 	function setRegistrazione( $registrazione ) {
 		$this->_campione->registrazione = $registrazione;
 	}
-	
+
 	function getRegistrazione() {
 		return $this->_campione->registrazione;
 	}
-	
-	
+
+
 	function setIp( $ip ) {
 		$this->_campione->ip = $ip;
 	}
-	
+
 	function getIp() {
 		return $this->_campione->ip;
 	}
-	
+
 	function setNome( $nome ) {
 		$this->_campione->nome = $nome;
 	}
-	
+
 	function getNome() {
 		return $this->_campione->nome;
 	}
-	
+
 	function  setCognome( $cognome ) {
 		$this->_campione->cognome = $cognome;
 	}
-	
+
 	function getCognome() {
 		return $this->_campione->cognome;
 	}
-	
+
 	function setEta( $eta ) {
 		$this->_campione->eta = $eta;
 	}
-	
+
 	function getEta() {
 		return $this->_campione->eta;
 	}
-	
+
 	function setEmail( $email ) {
 		$this->_campione->email = $email;
 	}
-	
+
 	function getEmail() {
 		return $this->_campione->email;
 	}
-	
+
 	function setIndirizzo( $indirizzo ) {
 		$this->_campione->indirizzo = $indirizzo;
 	}
-	
+
 	function getIndirizzo() {
 		return $this->_campione->indirizzo;
 	}
-	
+
 	function setProvincia( $provincia ) {
-		$this->_campione->provincia = $provincia;
-		$this->_provincia->loadBySigla( $this->_campione->provincia );
-		$this->_regione->load( $this->_provincia->id_regione );
+		$this->_provincia = $provincia;
 	}
-	
+
 	function getProvincia() {
-		return $this->_campione->provincia;
+		if ( !$this->_provincia->getId() ) {
+			$this->_provincia->setSigla( $this->_campione->provincia );
+			$this->_provincia->load();
+		}
+		return $this->_provincia;
 	}
-	
+
 	function setCitta( $citta ) {
-		$this->_campione->citta = $citta;	
+		$this->_campione->citta = $citta;
 	}
-	
+
 	function getCitta() {
 		return $this->_campione->citta;
 	}
-	
+
 	function setCap( $cap ) {
-		$this->_campione->cap = $cap;	
+		$this->_campione->cap = $cap;
 	}
-	
+
 	function getCap() {
 		return $this->_campione->cap;
 	}
-	
+
 	function setKit( $kit ) {
 		$this->_campione->kit = $kit;
 	}
-	
+
 	function getKit() {
 		return $this->_campione->kit;
 	}
-	
+
 	function setRichiestaStato( $richiestaStato ) {
 		$this->_campione->richiesta_stato = $richiestaStato;
 	}
-	
+
 	function getRichiestaStato() {
 		return $this->_campione->richiesta_stato;
 	}
-	
+
 	function setUserName( $username ) {
 		$this->username = $username;
 	}
-	
+
 	function getUserName() {
-		if (!$this->username){
-		 $this->_loadUserName(); 
-		}
 		return $this->username;
 	}
-		
+
 	function addEtaFiglio( $etaFiglio ) {
 		$etaMedia = $this->getFigliEtaMedia();
 		$numFigli = $this->getFigliNum();
@@ -177,31 +163,31 @@ class CampioniModelCampione extends JModel
 			$s1 = ($etaMedia * $numFigli) / ($numFigli + 1);
 			$s2 = $etaFiglio / ($numFigli + 1);
 			$this->_campione->figli_num = $numFigli + 1;
-			$this->_campione->figli_eta_media = $s1 + $s2;			
+			$this->_campione->figli_eta_media = $s1 + $s2;
 		} else {
 			$this->_campione->figli_num = 1;
-			$this->_campione->figli_eta_media = $etaFiglio;	
+			$this->_campione->figli_eta_media = $etaFiglio;
 		}
-		
+
 	}
-	
+
 	function getFigliNum() {
 		return $this->_campione->figli_num;
 	}
-	
+
 	function getFigliEtaMedia() {
 		return $this->_campione->figli_eta_media;
 	}
-	
+
 	function getNumOrder()
 	{
 		return $this->_campione->id;
 	}
-	
+
 	function bind() {
 		$err = false;
 		$user = JFactory::getUser();
-		
+
 		$this->setRegistrazione( date("Y-m-d")." - ".date("H:i:s") );
 		$this->setIp( $_SERVER["REMOTE_ADDR"] );
 		$this->setIdUtente( $user->id );
@@ -224,20 +210,20 @@ class CampioniModelCampione extends JModel
 			$this->setError( $this->_campione->getErrors() );
 			return false;
 		}
-		
+
 		if ( !$this->_campione->check() )
 		{
 			$this->setError( $this->_campione->getErrors() );
 			$err = true;
 		}
-		
+
 		if ( $err ) {
 			return false;
 		}
 		return true;
 	}
-	
-	function _bindFigli() 
+
+	function _bindFigli()
 	{
 		$figliDirty = JRequest::getVar( 'figli', array(), 'post', 'array' );
 		$figli = array();
@@ -252,28 +238,30 @@ class CampioniModelCampione extends JModel
 		}
 		return true;
 	}
-	
-	function getKitMap() 
+
+	function getKitMap()
 	{
 		return $this->_campione->getKitMap();
 	}
-	
+
 	function load()
 	{
 		$this->_campione->load($this->_id);
 		$this->_loadUserName();
 		return $this;
 	}
-	
+
 	function _loadUserName()
 	{
-		$user = new JUser();
-		if ( $user->load($this->getIdUtente()) )
-		{
-			$this->setUserName($user->username);
+		if ( $userId = $this->getIdUtente()) {
+			$user = new JUser();
+			if ( $user->load($userId) )
+			{
+				$this->setUserName($user->username);
+			}
 		}
 	}
-	
+
 	function store()
 	{
 		if ( !$this->_campione->store() ) {
@@ -282,7 +270,7 @@ class CampioniModelCampione extends JModel
 		}
 		return true;
 	}
-	
+
 	function save()
 	{
 		if ($this->bind()) {
@@ -291,7 +279,7 @@ class CampioniModelCampione extends JModel
 		}
 		return false;
 	}
-	
+
 	function isPresentJoomlaUser($id)
 	{
 		$db = $this->getDBO();
@@ -304,6 +292,6 @@ class CampioniModelCampione extends JModel
 			return false;
 		}
 	}
-	
+
 }
 ?>
