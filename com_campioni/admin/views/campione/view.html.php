@@ -7,8 +7,7 @@ class CampioniViewCampione extends JView
 {
 	function display( $tpl = null )
 	{
-		$model = $this->getModel();
-		$campione = $this->get( 'campione' );
+		$campione = $this->getModel();
 		$isNew = ( $campione->id < 1 );
 		$text = ($isNew) ? JText::_( 'New' ) : JText::_( 'Edit' );
 		

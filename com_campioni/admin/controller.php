@@ -1,5 +1,4 @@
 <?php
-//Editing Model, not working
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
@@ -28,8 +27,10 @@ class CampioniController extends JController
 	
 	function edit() 
 	{
-		$view = $this->getView( 'campione', 'html' );		
-		$view->setModel( $this->getModel( 'campione' ), true );
+		$view = $this->getView( 'campione', 'html' );	
+		$model = $this->getModel( 'campione' );
+		$model->load();
+		$view->setModel( $model, true );
 		$view->display();
 	}
 	
@@ -39,8 +40,8 @@ class CampioniController extends JController
 		if ( $model->save() )
 		{
 			$msg = JText::_( 'Campione salvato' );
-		    $link = 'index.php?option=com_campioni';
-		    $this->setRedirect($link);
+		    $link = JRoute::_('index.php?option=com_campioni');
+		    $this->setRedirect($link, JText::_('Salvataggio eseguito') );
 		} 
 		else 
 		{
@@ -52,9 +53,7 @@ class CampioniController extends JController
 	
 	function add() 
 	{
-		
-		$viewSite->setModel( $modelSite, true );
-		$viewSite->display();
+		$this->edit();
 	}
 
 }

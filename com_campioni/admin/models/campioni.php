@@ -2,6 +2,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
+JLoader::register('CampioniModelCampione', JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'campione.php' );
 
 class CampioniModelCampioni extends JModel
 {
@@ -12,7 +13,7 @@ class CampioniModelCampioni extends JModel
 	var $_allCampioni;
 	var $_regioni;
 	
-	var $tableName;
+	var $_tableName;
 	var $_pagination;
 	var $_total;
 
@@ -22,9 +23,10 @@ class CampioniModelCampioni extends JModel
 		global $mainframe, $option;
 		parent::__construct();
 		$table = $this->getTable( 'campione' );
-		$this->tableName = $table->getTableName();
+		$this->_tableName = $table->getTableName();
 		$ids = JRequest::getVar( 'cid', null, 'default', 'array' ); 
 		$this->setIds( $ids );
+		$this->campioni = array();
 		// Get the pagination request variables
 		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
 		$limitStart = $mainframe->getUserStateFromRequest($option.'limitstart', 'limitstart', 0);
@@ -36,12 +38,12 @@ class CampioniModelCampioni extends JModel
 	function setIds( $ids )
 	{
 		$this->_ids = $ids;
-		$this->_campioni = null;
+		$this->_campioni = array();
 	}
 
 	function _buildQuery()
 	{
-		$query = ' SELECT * FROM ' . $this->tableName . $this->_buildQueryOrderBy();
+		$query = ' SELECT * FROM ' . $this->_tableName . $this->_buildQueryOrderBy();
 		return $query;
 
 	}
@@ -106,17 +108,7 @@ class CampioniModelCampioni extends JModel
 		if (empty( $this->_allCampioni ))
 		{
 			$query = $this->_buildQuery();
-			$this->_allCampioni = $this->_getList( $query );
-			$provincia = $this->getTable( 'Provincia', 'Table' );
-			$regione = $this->getTable( 'Regione', 'Table' );
-			foreach ($this->_allCampioni as $campione) {
-				$provincia->loadBySigla( $campione->provincia );
-				$regione->id = $provincia->id_regione;
-				$regione->load();
-				$campione->id_regione = $regione->id;
-				$campione->prov_nome = $provincia->provincia;
-				$campione->regione = $regione->regione;
-			}
+			$this->_loadCampioni( $this->_getList( $query ) );
 		}
 		return $this->_allCampioni;
 	}
@@ -131,7 +123,7 @@ class CampioniModelCampioni extends JModel
 		}
 		$campioniFilterd = array();
 		foreach ($campioni as $campione) {
-			if ( $campione->id_regione !== $filterRegioneId ) {
+			if ( $campione->getRegioneId() !== $filterRegioneId ) {
 				continue;
 			}
 			$campioniFilterd[] = $campione;
@@ -144,7 +136,7 @@ class CampioniModelCampioni extends JModel
 		$campioni = $this->getAllCampioni();
 		$numCampioni = array();
 		foreach ($campioni as $campione) {
-			$numCampioni[$campione->id_regione] += 1;
+			$numCampioni[$campione->getRegioneId()] += 1;
 		}
 		foreach ($regioni as $regione) {
 			$regione->numCampioni = $numCampioni[$regione->id];
@@ -152,7 +144,9 @@ class CampioniModelCampioni extends JModel
 		return $regioni;
 	}
 
-	// @return ObjectList
+	/**
+	 * @return ObjectList
+	 */ 
 	function getRegioni()
 	{
 		if ( empty($this->_regioni) )
@@ -203,6 +197,33 @@ class CampioniModelCampioni extends JModel
 			}
 		}
 		return true;
+	}
+	
+	function _loadCampioni( $objList ) {
+		$this->_allCampioni = array();
+		foreach ( $objList as $obj) {
+			$campione = new CampioniModelCampione();
+			$campione->setId( $obj->id );
+			$campione->setIdUtente($obj->id_utente);
+			$campione->setRegistrazione( $obj->registrazione);
+			$campione->setIp( $obj->ip );
+			$campione->setNome( $obj->nome );
+			$campione->setCognome( $obj->cognome );
+			$campione->setEta( $obj->eta );
+			$campione->setEmail( $obj->email );
+			$campione->setIndirizzo( $obj->indirizzo );
+			$campione->setProvincia( $obj->provincia );
+			$campione->setCitta( $obj->citta );
+			$campione->setCap( $obj->cap );
+			$campione->setKit( $obj->kit );
+			$campione->setRichiestaStato( $obj->richiesta_stato );
+			
+			$table = $campione->getTableCampione();
+			$table->figli_num = $obj->figli_num;
+			$table->figli_eta_media = $obj->figli_eta_media;
+			
+			$this->_allCampioni[] = $campione;
+		}
 	}
 
 }

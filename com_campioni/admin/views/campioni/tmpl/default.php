@@ -49,59 +49,59 @@ $rows = $this->campioni;
 	    for ($i=0, $n=count( $rows ); $i < $n; $i++) 
 	    {
 			$row = &$rows[$i]; 
-			$checked = JHTML::_('grid.id', $i, $row->id );
-			$link = JRoute::_( 'index.php?option=' . 'com_campioni' . '&task=edit&cid[]='. $row->id );
+			$checked = JHTML::_('grid.id', $i, $row->getId() );
+			$link = JRoute::_( 'index.php?option=' . 'com_campioni' . '&task=edit&cid[]='. $row->getId() );
 	      ?> 
 	      <tr class="<?php echo "row$k"; ?>"> 
 	        <td> 
 	          <?php echo $checked; ?> 
 	        </td>
 	        <td>
-	          <?php echo $row->id; ?>
+	          <?php echo $row->getId(); ?>
 	        </td>
 	        <td>
-	          <?php echo $row->ip; ?>
+	          <?php echo $row->getIp(); ?>
 	        </td> 
 	        <td>
 			<a href="<?php echo $link; ?>"> 
-	          <?php echo $row->nome; ?></a>
+	          <?php echo $row->getNome(); ?></a>
 	        </td> 
 	        <td> 
-	          <?php echo $row->cognome; ?> 
+	          <?php echo $row->getCognome(); ?> 
 	        </td>
 	        <td> 
-	          <?php echo $row->eta; ?> 
+	          <?php echo $row->getEta(); ?> 
 	        </td>
 	        <td> 
-	          <a href="mailto:<?php echo $row->email; ?>"><?php echo $row->email; ?></a> 
+	          <a href="mailto:<?php echo $row->getEmail(); ?>"><?php echo $row->getEmail(); ?></a> 
 	        </td>
 	        <td> 
-	          <?php echo $row->indirizzo; ?> 
+	          <?php echo $row->getIndirizzo(); ?> 
 	        </td>
 	        <td> 
 	          <?php 
-	          if ( !$row->prov_nome ) {
-	          	$row->prov_nome = 'sigla non trovata';
-	          }       
-	          echo $row->provincia . ' (' . $row->prov_nome . ' | ' .$row->regione .')'; ?> 
+	          if ( !($provinciaNome = $row->getProvinciaNome()) ) {
+	          	$provinciaNome = 'sigla non trovata';
+	          }      
+	          echo $row->getProvincia() . ' (' . $row->getProvinciaNome() . ' | ' .$row->getRegione() .')'; ?> 
 	        </td>
 	        <td> 
-	          <?php echo $row->citta; ?> 
+	          <?php echo $row->getCitta(); ?> 
 	        </td>
 	        <td> 
-	          <?php echo $row->cap; ?> 
+	          <?php echo $row->getCap(); ?> 
 	        </td>
 	        <td> 
-	          <?php echo $row->kit; ?> 
+	          <?php echo $row->getKit(); ?> 
 	        </td>
 	        <td> 
-	          <?php echo $row->figli_num; ?> 
+	          <?php echo $row->getFigliNum(); ?> 
 	        </td>
 	        <td> 
-	          <?php echo $row->figli_eta_media; ?> 
+	          <?php echo $row->getFigliEtaMedia(); ?> 
 	        </td>	   
 	        <td> 
-	          <?php echo $row->registrazione; ?> 
+	          <?php echo $row->getRegistrazione(); ?> 
 	        </td>             
 	      </tr> 
 	      <?php 

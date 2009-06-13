@@ -5,21 +5,29 @@ jimport('joomla.application.component.controller');
 
 class CampioneController extends JController
 {
+	function __construct()
+	{
+		parent::__construct();
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS."models");
+	}
+	
 	function display()
 	{
 		$user = JFactory::getUser();
-		$model = $this->getModel();
+		$model = $this->getModel('Campione', 'CampioniModel');
 		if ( ($user->gid < 19) && $model->isPresentJoomlaUser($user->id) ) {
 			JError::raiseWarning( '', 'Hai gia richiestro un campione' );
 			return false;
 		}
-		parent::display();
+		$view = $this->getView( 'campione', 'html' );
+		$view->setModel( $model, true );
+		$view->display();
 	}
 
 	function salva()
 	{
 		$user = JFactory::getUser();
-		$model = $this->getModel();
+		$model = $this->getModel('Campione', 'CampioniModel');
 		if ( ($user->gid < 19) && $model->isPresentJoomlaUser($user->id) ) {
 			JError::raiseWarning( '', 'Hai gia richiestro un campione' );
 			return false;

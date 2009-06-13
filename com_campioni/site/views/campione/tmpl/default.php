@@ -20,7 +20,7 @@ $campione = $this->campione;
 		</label>
 	</td>
   	<td>
-  		<input type="text" name="nome" id="nome" size="30" value="<?php echo $campione->nome;?>" class="inputbox required" maxlength="25" /> *
+  		<input type="text" name="nome" id="nome" size="30" value="<?php echo $campione->getNome();?>" class="inputbox required" maxlength="25" /> *
   	</td>
 </tr>
 <tr>
@@ -30,7 +30,7 @@ $campione = $this->campione;
 		</label>
 	</td>
 	<td>
-		<input type="text" id="cognome" name="cognome" size="30" value="<?php echo $campione->cognome;?>" class="inputbox required" maxlength="25" /> *
+		<input type="text" id="cognome" name="cognome" size="30" value="<?php echo $campione->getCognome();?>" class="inputbox required" maxlength="25" /> *
 	</td>
 </tr>
 <tr>
@@ -40,7 +40,7 @@ $campione = $this->campione;
 		</label>
 	</td>
 	<td>
-		<input type="text" id="eta" name="eta" size="5" value="<?php echo $campione->eta;?>" class="inputbox required" maxlength="3" /> *
+		<input type="text" id="eta" name="eta" size="5" value="<?php echo $campione->getEta();?>" class="inputbox required" maxlength="3" /> *
 	</td>
 </tr>
 <tr>
@@ -50,7 +50,7 @@ $campione = $this->campione;
 		</label>
 	</td>
   	<td>
-  		<input class="inputbox required" type="text" id="indirizzo" name="indirizzo" size="40" maxlength="40" value="<?php echo $campione->indirizzo;?>" /> *
+  		<input class="inputbox required" type="text" id="indirizzo" name="indirizzo" size="40" maxlength="40" value="<?php echo $campione->getIndirizzo();?>" /> *
   	</td>
 </tr>
 <tr>
@@ -60,7 +60,7 @@ $campione = $this->campione;
 		</label>
 	</td>
   	<td>
-  		<input class="inputbox required" type="text" id="provincia" name="provincia" size="4" maxlength="2" value="<?php echo $campione->provincia;?>" /> * <span>2 Lettere</span>
+  		<input class="inputbox required" type="text" id="provincia" name="provincia" size="4" maxlength="2" value="<?php echo $campione->getProvincia();?>" /> * <span>2 Lettere</span>
   	</td>
 </tr>
 <tr>
@@ -70,7 +70,7 @@ $campione = $this->campione;
 		</label>
 	</td>
   	<td>
-  		<input class="inputbox required" type="text" id="citta" name="citta" size="25" maxlength="20" value="<?php echo $campione->citta;?>" /> *
+  		<input class="inputbox required" type="text" id="citta" name="citta" size="25" maxlength="20" value="<?php echo $campione->getCitta();?>" /> *
   	</td>
 </tr>
 <tr>
@@ -80,7 +80,7 @@ $campione = $this->campione;
 		</label>
 	</td>
   	<td>
-  		<input class="inputbox required" type="text" id="cap" name="cap" size="10" maxlength="5" value="<?php echo $campione->cap;?>" /> * <span>5 Cifre</span>
+  		<input class="inputbox required" type="text" id="cap" name="cap" size="10" maxlength="5" value="<?php echo $campione->getCap();?>" /> * <span>5 Cifre</span>
   	</td>
 </tr>
 <tr>
