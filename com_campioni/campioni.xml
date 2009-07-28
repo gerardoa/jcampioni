@@ -2,11 +2,11 @@
 <install type="component" version="1.5.0">
  <name>Campioni</name>
  <!-- The following elements are optional and free of formatting conttraints -->
- <creationDate>2009-03-26</creationDate>
+ <creationDate>2009-06-21</creationDate>
  <author>Gerardo Adelizzi</author>
  <authorEmail>g.adelizzi@gmail.com</authorEmail>
  <!--  The version string is recorded in the components table -->
- <version>1.3</version>
+ <version>2.0</version>
  <!-- The description is optional and defaults to the name -->
  <description>Richiesta campioni</description>
  
@@ -18,10 +18,7 @@
   <filename>views/campione/index.html</filename>
   <filename>views/campione/view.html.php</filename>
   <filename>views/campione/tmpl/default.php</filename>
-  <filename>views/campione/tmpl/index.html</filename>
-  <filename>models/campione.php</filename>
-  <filename>models/index.html</filename>
-   
+  <filename>views/campione/tmpl/index.html</filename>   
   <filename>views/ordineinviato/index.html</filename>
   <filename>views/ordineinviato/view.html.php</filename>
   <filename>views/ordineinviato/tmpl/index.html</filename>
@@ -54,6 +51,9 @@ CREATE TABLE IF NOT EXISTS `jos_campioni_richieste` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
         </query>
+        <query>
+        ALTER TABLE `jos_campioni_richieste` ADD `data_spedizione` DATE NULL;
+        </query>
       </queries>
  </install>
  
@@ -67,8 +67,12 @@ CREATE TABLE IF NOT EXISTS `jos_campioni_richieste` (
    <filename>campioni.php</filename>
    <filename>index.html</filename>
    <filename>controller.php</filename>
+   <filename>models/campione.php</filename>
    <filename>models/campioni.php</filename>
    <filename>models/index.html</filename>
+   <filename>models/provincia.php</filename>
+   <filename>models/regione.php</filename>
+   <filename>models/regioni.php</filename>
    <filename>tables/campione.php</filename>
    <filename>tables/provincia.php</filename>
    <filename>tables/regione.php</filename>
@@ -78,6 +82,10 @@ CREATE TABLE IF NOT EXISTS `jos_campioni_richieste` (
    <filename>views/campioni/view.html.php</filename>
    <filename>views/campioni/tmpl/index.html</filename>
    <filename>views/campioni/tmpl/default.php</filename>
+   <filename>views/campione/index.html</filename>
+   <filename>views/campione/view.html.php</filename>
+   <filename>views/campione/tmpl/index.html</filename>
+   <filename>views/campione/tmpl/default.php</filename>   
   </files>  
  
  </administration>

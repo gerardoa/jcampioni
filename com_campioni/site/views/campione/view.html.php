@@ -8,13 +8,13 @@ class CampioneViewCampione extends JView
 	function display( $tpl = null )
 	{
 		
-		$model = $this->getModel();
-		$errors = $model->getErrors();
+		$campione = $this->getModel();
+		$errors = $campione->getErrors();
 		if ( !empty($errors) ) {
 			$errorsHtml = $this->_listErrors( $errors );
 			JError::raiseWarning( '', $errorsHtml );
 		}
-		$kitMap = $model->getKitMap();
+		$kitMap = $campione->getKitMap();
 		$kit = array ( array( 'value' => '', 'text' => 'Seleziona qui') );
 		foreach ($kitMap as $value => $text) {
 			$kit[] = array( 'value' => $value, 'text' => $text );
@@ -78,7 +78,7 @@ function removeFigli() {
 		table.deleteRow(i-1);
 	}
 } ");
-		$this->assignRef( 'campione', $model );
+		$this->assignRef( 'campione', $campione );
 		$this->assignRef( 'lists', $lists );
 		parent::display( $tpl );
 	}
