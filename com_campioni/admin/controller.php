@@ -6,9 +6,14 @@ jimport('joomla.application.component.controller');
 class CampioniController extends JController
 {
 	function display()
+	{		
+		$this->_displayCampioni( $this->getModel( 'campioni' ) );
+	}
+	
+	function _displayCampioni($campioni) 
 	{
 		$view = $this->getView( 'campioni', 'html' );
-		$view->setModel( $this->getModel( 'campioni' ), true);
+		$view->setModel( $campioni, true);
 		$view->setModel( $this->getModel( 'regioni' ) );
 		$view->display();
 	}
@@ -59,18 +64,29 @@ class CampioniController extends JController
 	function add()
 	{
 		$view = $this->getView( 'campione', 'html' );
-		$model = $this->getModel( 'campione' );
-		$view->setModel( $model, true );
+		$campione = $this->getModel( 'campione' );
+		$view->setModel( $campione, true );
 		$view->display();
 	}
 	
 	function delivered()
 	{
 		$campioni = $this->getModel( 'campioni' );
-		$campioni->SetDelivered( true );
-		$view = $this->getView( 'campioni', 'html' );
-		$view->setModel( $campioni, true );
+		$campioni->setDelivered( true );
+		$this->_displayCampioni($campioni);
+	}
+	
+	function exportToCVS()
+	{
+		//header("Content-type: text/x-csv");
+		//header("Content-Disposition: attachment; filename=search_results.csv");
+		$view = $this->getView('campioni', 'raw');
 		$view->display();
+		/*$document = JFactory::getDocument();
+		$document->setMimeEncoding('text/x-csv');
+		$document->setType('raw');
+		$document->setBuffer('Export');	
+		JRequest::setVar('format', 'raw');	*/
 	}
 
 }

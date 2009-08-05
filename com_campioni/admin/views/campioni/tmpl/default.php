@@ -34,6 +34,7 @@ $rows = $this->campioni;
 	        <th><?php echo JHTML::_('grid.sort', 'N. Figli', 'figli_num', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 	        <th><?php echo JHTML::_('grid.sort', 'Figli eta media', 'figli_eta_media', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 	        <th><?php echo JHTML::_('grid.sort', 'Data Richiesta', 'registrazione', $this->lists['order_Dir'], $this->lists['order']); ?></th>
+	        <th><?php echo JHTML::_('grid.sort', 'Data Spedizione', 'data_spedizione', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 	      </tr> 
 	    </thead>
 	    <tfoot>
@@ -104,7 +105,10 @@ $rows = $this->campioni;
 	        </td>	   
 	        <td> 
 	          <?php echo $row->getRegistrazione(); ?> 
-	        </td>             
+	        </td>
+	        <td> 
+	          <?php echo $row->getDataSpedizione(); ?> 
+	        </td>              
 	      </tr> 
 	      <?php 
 	      $k = 1 - $k; 

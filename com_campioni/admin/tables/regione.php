@@ -8,7 +8,7 @@ class TableRegione extends JTable
 	
 	function __construct(&$db)
 	{
-		parent::__construct( 'regioni', 'id', $db );
+		parent::__construct( '#__regioni', 'id', $db );
 	}	
 }
 ?>

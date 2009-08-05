@@ -5,8 +5,20 @@ jimport('joomla.application.component.model');
 
 class CampioniModelCampione extends JModel
 {
+	/**
+	 *
+	 * @var TableCampione
+	 */
 	var $_campione = null;
+	/**
+	 *
+	 * @var CampioniModelProvincia
+	 */
 	var $_provincia = null;
+	/**
+	 *
+	 * @var CampioniModelRegione
+	 */
 	var $_regione = null;
 
 	var $_username = null;
@@ -16,8 +28,6 @@ class CampioniModelCampione extends JModel
 		parent::__construct();
 		$id = JRequest::getVar( 'cid', null, 'default', 'array' );
 		$this->_campione = $this->getTable();
-		$this->_provincia = $this->getInstance( 'provincia', 'CampioniModel' );
-		$this->_regione = $this->getInstance( 'regione', 'CampioniModel' );
 		$this->_campione->id = $id[0];
 	}
 
@@ -109,11 +119,17 @@ class CampioniModelCampione extends JModel
 	}
 
 	function getProvincia() {
-		if ( !$this->_provincia->getId() ) {
-			$this->_provincia->setSigla( $this->_campione->provincia );
-			$this->_provincia->load();
+		if ($this->_provincia) {
+			return $this->_provincia;
 		}
-		return $this->_provincia;
+		// Try to load
+		if ($this->_campione->provincia) {
+			$provincia = $this->getInstance( 'provincia', 'CampioniModel' );
+			$provincia->setSigla($this->_campione->provincia);
+			$provincia->load();
+			return $this->_provincia = $provincia;
+		}
+		return null;
 	}
 
 	function setCitta( $citta ) {
@@ -183,7 +199,15 @@ class CampioniModelCampione extends JModel
 	{
 		return $this->_campione->id;
 	}
-
+	
+	function setDataSpedizione($data) {
+		$this->_campione->data_spedizione = $data;
+	}
+	
+	function getDataSpedizione() {
+		return $this->_campione->data_spedizione;
+	}
+	
 	function bind() {
 		$err = false;
 		$user = JFactory::getUser();

@@ -193,33 +193,46 @@ class CampioniModelCampioni extends JModel
 	function _loadCampioni( $objList ) {
 		$this->_allCampioni = array();
 		foreach ( $objList as $obj) {
-			$campione = new CampioniModelCampione();
-			$campione->setId( $obj->id );
-			$campione->setIdUtente($obj->id_utente);
-			$campione->setRegistrazione( $obj->registrazione);
-			$campione->setIp( $obj->ip );
-			$campione->setNome( $obj->nome );
-			$campione->setCognome( $obj->cognome );
-			$campione->setEta( $obj->eta );
-			$campione->setEmail( $obj->email );
-			$campione->setIndirizzo( $obj->indirizzo );
-			$campione->setCitta( $obj->citta );
-			$campione->setCap( $obj->cap );
-			$campione->setKit( $obj->kit );
-			$campione->setRichiestaStato( $obj->richiesta_stato );
-				
-			$table = $campione->getTableCampione();
-			$table->provincia = $obj->provincia;
-			$table->figli_num = $obj->figli_num;
-			$table->figli_eta_media = $obj->figli_eta_media;
-				
-			$this->_allCampioni[] = $campione;
+			$this->_allCampioni[] = $this->_loadCampione($obj);
 		}
 	}
-	
+
+	function _loadCampione($obj) {
+		$campione = new CampioniModelCampione();
+		$campione->setId( $obj->id );
+		$campione->setIdUtente($obj->id_utente);
+		$campione->setRegistrazione( $obj->registrazione);
+		$campione->setIp( $obj->ip );
+		$campione->setNome( $obj->nome );
+		$campione->setCognome( $obj->cognome );
+		$campione->setEta( $obj->eta );
+		$campione->setEmail( $obj->email );
+		$campione->setIndirizzo( $obj->indirizzo );
+		$campione->setCitta( $obj->citta );
+		$campione->setCap( $obj->cap );
+		$campione->setKit( $obj->kit );
+		$campione->setRichiestaStato( $obj->richiesta_stato );
+		$campione->setDataSpedizione($obj->data_spedizione);
+		// Fill private fields
+		$table = $campione->getTableCampione();
+		$table->provincia = $obj->provincia;
+		$table->figli_num = $obj->figli_num;
+		$table->figli_eta_media = $obj->figli_eta_media;
+		
+		return $campione;
+	}
+
 	function setDelivered( $bool = true )
 	{
-		
+		jimport('joomla.utilities.date');
+		$campione = new CampioniModelCampione();
+		$cids = $this->_ids;
+		foreach ($cids as $cid) {
+			$campione->setId($cid);
+			$date = new JDate();
+			$campione->setDataSpedizione($date->toMySQL(true));
+			$campione->store();
+		}
 	}
 
 }

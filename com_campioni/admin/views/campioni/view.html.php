@@ -5,39 +5,45 @@ jimport('joomla.application.component.view');
 
 class CampioniViewCampioni extends JView
 {
+	function __construct()
+	{
+		parent::__construct();
+	}
 	function display( $tpl = null )
 	{
 		global $mainframe, $option;
 		JToolBarHelper::title( JText::_('Campioni') );
 		JToolBarHelper::addNew();
 		//JToolBarHelper::editList();
-		JToolBarHelper::customX( 'delivered', '', '', JText::_('Spedito') );
+		JHTML::_('stylesheet', 'campioni.css', 'administrator/components/com_campioni/css/');
+		JToolBarHelper::customX( 'delivered', 'letter', '', JText::_('Spedito') );
+		JToolBarHelper::publish('exportToCVS', JText::_('Esporta'));
 		JToolBarHelper::deleteListX( JText::_('Vuoi davvero eliminarlo/i?') );
-		
+
 		$lists = array();
 		$lists['order'] = $mainframe->getUserStateFromRequest( $option.'filter_order', 'filter_order', 'registrazione' );
 		$lists['order_Dir'] = $mainframe->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir', 'DESC' );
 
 		$lists['regioneid'] = $this->_regioniToSelectList();
-		
+
 		$this->assignRef( 'pageNav', $this->get( 'Pagination') );
 		$this->assignRef( 'lists', $lists );
 		$campioni = $this->get( 'Campioni' );
 		$this->assignRef( 'campioni', $campioni );
-		
+
 		parent::display( $tpl );
 	}
-	
-	function _regioniToSelectList() 
+
+	function _regioniToSelectList()
 	{
 		global $mainframe, $option;
 		$campioni = $this->getModel();
-		$modelRegioni = $this->getModel( 'regioni' );		
+		$modelRegioni = $this->getModel( 'regioni' );
 		$regioni = $modelRegioni->findAll();
 		$regioniSelect = array();
 		foreach ($regioni as $regione) {
 			$regioneSelect = new stdClass();
-			$regioneSelect->id = $regione->getId(); 
+			$regioneSelect->id = $regione->getId();
 			$regioneSelect->optionText = $regione->getNome() . ' (' . $campioni->getNumCampioniByRegione($regione) . ')';
 			$regioniSelect[] = $regioneSelect;
 		}

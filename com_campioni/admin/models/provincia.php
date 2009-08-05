@@ -20,7 +20,6 @@ class CampioniModelProvincia extends JModel
 	{
 		parent::__construct();
 		$this->_provincia = $this->getTable( 'Provincia', 'Table' );
-		$this->_regione = $this->getInstance( 'regione', 'CampioniModel' );
 	}
 
 	function setId( $id ) {
@@ -52,7 +51,8 @@ class CampioniModelProvincia extends JModel
 	}
 
 	function getRegione() {
-		if ( !$this->_regione->getId() ) {
+		if ( !$this->_regione ) {
+			$this->_regione = $this->getInstance( 'regione', 'CampioniModel' );
 			$this->_regione->setId( $this->_provincia->id_regione );
 			$this->_regione->load();
 		}

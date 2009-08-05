@@ -11,7 +11,7 @@ class TableProvincia extends JTable
 		
 	function __construct(&$db)
 	{
-		parent::__construct( 'province', 'id', $db );
+		parent::__construct( '#__province', 'id', $db );
 	}	
 	
 }
