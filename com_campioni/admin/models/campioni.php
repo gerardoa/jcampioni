@@ -218,6 +218,7 @@ class CampioniModelCampioni extends JModel
 		$table->provincia = $obj->provincia;
 		$table->figli_num = $obj->figli_num;
 		$table->figli_eta_media = $obj->figli_eta_media;
+		$table->codice_commento = $obj->codice_commento;
 		
 		return $campione;
 	}
@@ -227,10 +228,10 @@ class CampioniModelCampioni extends JModel
 		jimport('joomla.utilities.date');
 		$campione = new CampioniModelCampione();
 		$cids = $this->_ids;
+		$date = new JDate();
 		foreach ($cids as $cid) {
-			$campione->setId($cid);
-			$date = new JDate();
-			$campione->setDataSpedizione($date->toMySQL(true));
+			$campione->setId($cid);			
+			$campione->setDataSpedizione($date->toMySQL());
 			$campione->store();
 		}
 	}

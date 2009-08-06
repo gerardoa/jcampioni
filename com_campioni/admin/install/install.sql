@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `#__campioni_richieste` (
 `figli_num` tinyint(4) DEFAULT NULL, 
 `figli_eta_media` float DEFAULT NULL, 
 `data_spedizione` datetime NULL DEFAULT NULL,
+`codice_commento` INT NULL,
 PRIMARY KEY (`id`) 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 			

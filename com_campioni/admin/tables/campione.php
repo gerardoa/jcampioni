@@ -20,6 +20,7 @@ class TableCampione extends JTable
 	var $figli_num = null;
 	var $figli_eta_media = null;
 	var $data_spedizione = null;
+	var $codice_commento = null;
 	
 	
 	function __construct(&$db)

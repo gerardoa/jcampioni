@@ -29,6 +29,8 @@ class CampioniModelCampione extends JModel
 		$id = JRequest::getVar( 'cid', null, 'default', 'array' );
 		$this->_campione = $this->getTable();
 		$this->_campione->id = $id[0];
+		$this->_campione->figli_num = 0;
+		$this->_campione->figli_eta_media = 0;
 	}
 
 	function getTableCampione(){
@@ -211,6 +213,10 @@ class CampioniModelCampione extends JModel
 	function getDataSpedizione() {
 		return $this->_campione->data_spedizione;
 	}
+	
+	function getCodiceCommento() {
+		return $this->_campione->codice_commento;
+	}
 
 	function bind() {
 		$err = false;
@@ -257,7 +263,7 @@ class CampioniModelCampione extends JModel
 		$figli = array();
 		foreach ($figliDirty as $etaD) {
 			if ( $etaD != '') {
-				if ( !preg_match( '/[0-9]{1,2}/', $eta ) ) {
+				if ( !preg_match( '/[0-9]{1,2}/', $etaD ) ) {
 					$this->setError( JText::_('L\'eta dei figli deve essere un numero di max 2 cifre') );
 					return false;
 				}
@@ -307,7 +313,13 @@ class CampioniModelCampione extends JModel
 			$this->setError( $this->_campione->getError() );
 			return false;
 		}
+		$this->_createCodiceCommento();
+		$this->_campione->store();
 		return true;
+	}
+	
+	function _createCodiceCommento() {
+		$this->_campione->codice_commento = $this->_campione->id . date('dm');
 	}
 
 	function save()
