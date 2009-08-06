@@ -80,7 +80,9 @@ class CampioniController extends JController
 	{
 		//header("Content-type: text/x-csv");
 		//header("Content-Disposition: attachment; filename=search_results.csv");
+		$campioni = $this->getModel( 'campioni' );
 		$view = $this->getView('campioni', 'raw');
+		$view->setModel( $campioni, true );
 		$view->display();
 		/*$document = JFactory::getDocument();
 		$document->setMimeEncoding('text/x-csv');

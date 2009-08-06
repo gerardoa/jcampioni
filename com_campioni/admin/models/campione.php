@@ -118,6 +118,10 @@ class CampioniModelCampione extends JModel
 		$this->_provincia = $provincia;
 	}
 
+	/**
+	 * 
+	 * @return CampioniModelProvincia
+	 */
 	function getProvincia() {
 		if ($this->_provincia) {
 			return $this->_provincia;
@@ -266,6 +270,17 @@ class CampioniModelCampione extends JModel
 	function getKitMap()
 	{
 		return $this->_campione->getKitMap();
+	}
+	
+	function toArrayValues()
+	{
+		$provincia = $this->getProvincia();
+		$values = array($this->getId(), $this->getIp(), $this->getNome(), $this->getCognome(),
+		$this->getEta(), $this->getEmail(), $this->getIndirizzo(), $provincia->getNome(), $provincia->getSigla(),
+		$this->getCitta(), $this->getCap(), $this->getKit(), $this->getFigliNum(), $this->getFigliEtaMedia(),
+		$this->getRegistrazione(), $this->getDataSpedizione()
+		);
+		return $values;
 	}
 
 	function load()
