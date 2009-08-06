@@ -30,7 +30,7 @@ class TableCampione extends JTable
 	function check()
 	{
 		$err = false;
-		if ( ($this->id_utente == null)|| ($this->registrazione == null) || ($this-ip == null) ) {
+		if ( ($this->id_utente == null)|| ($this->registrazione == null) || ($this->ip == null) ) {
 			$this->setError( JText::_('Non valid internal field') );
 			$err = true;
 		}

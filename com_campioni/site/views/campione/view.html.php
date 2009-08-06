@@ -7,7 +7,7 @@ class CampioneViewCampione extends JView
 {
 	function display( $tpl = null )
 	{
-		
+
 		$campione = $this->getModel();
 		$errors = $campione->getErrors();
 		if ( !empty($errors) ) {
@@ -19,8 +19,14 @@ class CampioneViewCampione extends JView
 		foreach ($kitMap as $value => $text) {
 			$kit[] = array( 'value' => $value, 'text' => $text );
 		}
-		$campioneKit = array_keys($kitMap, $campione->kit);
-		$lists['kit'] = JHTML::_( 'select.genericlist', $kit, 'kit', null, 'value', 'text', $campioneKit[0] );		
+		if ($campione->getKit()) {
+			$campioneKit = array_keys($kitMap, $campione->getKit());
+			$selectedKit = $campioneKit[0];
+		} else {
+			$selectedKit = '';
+		}
+
+		$lists['kit'] = JHTML::_( 'select.genericlist', $kit, 'kit', null, 'value', 'text', $selectedKit );
 		// Load the form validation behavior
 		JHTML::_('behavior.formvalidation');
 		$document = JFactory::getDocument();
@@ -85,9 +91,10 @@ function removeFigli() {
 
 	function _listErrors( $errors )
 	{
-		if ( empty($errors) )
-		return '';
-		//$html = '<ul>';
+		if ( empty($errors) ) {
+			return '';
+		}
+		$html = '';
 		foreach ($errors as $content) {
 			if ( is_array( $content ) ) {
 				$html .= $this->_listErrors( $content );

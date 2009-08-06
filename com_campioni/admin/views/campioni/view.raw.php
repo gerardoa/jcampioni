@@ -23,12 +23,12 @@ class CampioniViewCampioni extends JView
 		$fp = fopen($fileName, 'w');
 		foreach ($campioni as $campione) {
 			$line = $campione->toArrayValues();
-			fputcsv($fp, $line);
+			fputcsv($fp, $line, ';');
 		}
 		fclose($fp);
 		header('Content-Length: ' . filesize($fileName));
-		ob_clean();
-		flush();
+		//ob_clean();
+		//flush();
 		readfile($fileName);
 		
 		// Unable to load renderer class

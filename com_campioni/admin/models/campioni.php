@@ -141,13 +141,13 @@ class CampioniModelCampioni extends JModel
 			foreach ($campioni as $campione) {
 				$provincia = $campione->getProvincia();
 				$regione = $provincia->getRegione();
-				$this->_mapNumCampioni[$regione->getId()] += 1;
+				@$this->_mapNumCampioni[$regione->getId()] += 1;
 			}
 			/*foreach ($regioni as $regione) {
 			 $regione->numCampioni = $numCampioni[$regione->id];
 			 }*/
 		}
-		return $this->_mapNumCampioni[$regioneArg->getId()];
+		return @$this->_mapNumCampioni[$regioneArg->getId()];
 	}
 
 	function getPagination()

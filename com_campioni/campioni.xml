@@ -49,6 +49,8 @@
 
 		<!-- Administration Main File Copy Section -->
 		<files folder="admin">
+			<filename>css/campioni.css</filename>
+			<filename>icon/icon-32-letter.png</filename>
 			<filename>install/install.sql</filename>
 			<filename>install/province.sql</filename>
 			<filename>install/regioni.sql</filename>
@@ -69,6 +71,7 @@
 			<filename>views/index.html</filename>
 			<filename>views/campioni/index.html</filename>
 			<filename>views/campioni/view.html.php</filename>
+			<filename>views/campioni/view.raw.php</filename>
 			<filename>views/campioni/tmpl/index.html</filename>
 			<filename>views/campioni/tmpl/default.php</filename>
 			<filename>views/campione/index.html</filename>

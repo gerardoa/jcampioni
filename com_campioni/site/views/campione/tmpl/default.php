@@ -60,7 +60,7 @@ $campione = $this->campione;
 		</label>
 	</td>
   	<td>
-  		<input class="inputbox required" type="text" id="provincia" name="provincia" size="4" maxlength="2" value="<?php echo $campione->getProvincia();?>" /> * <span>2 Lettere</span>
+  		<input class="inputbox required" type="text" id="provincia" name="provincia" size="4" maxlength="2" value="<?php if ($provincia = $campione->getProvincia()){ echo $provincia->getSigla();}?>" /> * <span>2 Lettere</span>
   	</td>
 </tr>
 <tr>

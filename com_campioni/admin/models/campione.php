@@ -119,7 +119,7 @@ class CampioniModelCampione extends JModel
 	}
 
 	/**
-	 * 
+	 *
 	 * @return CampioniModelProvincia
 	 */
 	function getProvincia() {
@@ -203,15 +203,15 @@ class CampioniModelCampione extends JModel
 	{
 		return $this->_campione->id;
 	}
-	
+
 	function setDataSpedizione($data) {
 		$this->_campione->data_spedizione = $data;
 	}
-	
+
 	function getDataSpedizione() {
 		return $this->_campione->data_spedizione;
 	}
-	
+
 	function bind() {
 		$err = false;
 		$user = JFactory::getUser();
@@ -224,6 +224,8 @@ class CampioniModelCampione extends JModel
 		if ( !$this->_bindFigli() ) {
 			$err = true;
 		}
+		//all other implicit fields
+		$binded = $this->_campione->bind(JRequest::get('post'));
 		$kitMap = $this->getKitMap();
 		$kitName = $kitMap[ JRequest::getVar( 'kit' ) ];
 		if ( !$kitName ) {
@@ -232,8 +234,6 @@ class CampioniModelCampione extends JModel
 		} else {
 			$this->setKit( $kitName );
 		}
-		//all other implicit fields
-		$binded = $this->_campione->bind(JRequest::get('post'));
 		if ( !$binded  ) {
 			$this->setError( $this->_campione->getErrors() );
 			return false;
@@ -271,7 +271,7 @@ class CampioniModelCampione extends JModel
 	{
 		return $this->_campione->getKitMap();
 	}
-	
+
 	function toArrayValues()
 	{
 		$provincia = $this->getProvincia();

@@ -27,23 +27,23 @@ class CampioneController extends JController
 	function salva()
 	{
 		$user = JFactory::getUser();
-		$model = $this->getModel('Campione', 'CampioniModel');
-		if ( ($user->gid < 19) && $model->isPresentJoomlaUser($user->id) ) {
+		$campione = $this->getModel('Campione', 'CampioniModel');
+		if ( ($user->gid < 19) && $campione->isPresentJoomlaUser($user->id) ) {
 			JError::raiseWarning( '', 'Hai gia richiestro un campione' );
 			return false;
 		}
-		if ( !$model->save() ) {
+		if ( !$campione->save() ) {
 			$view = $this->getView( 'campione', 'html' );
-			$view->setModel( $model, true );
+			$view->setModel( $campione, true );
 			$view->display();
 			return false;
 		}
-		$numOrder = $model->getNumOrder();
+		$numOrder = $campione->getNumOrder();
 		
 		$this->_sendMail( $user, $numOrder );
 
 		$view = $this->getView( 'ordineinviato', 'html' );
-		$view->setModel( $model, true );
+		$view->setModel( $campione, true );
 		$view->display();
 		return true;
 	}
