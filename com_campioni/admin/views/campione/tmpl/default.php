@@ -10,11 +10,11 @@ $campione = $this->campione;
 <table class="admintable">
 	<tr>
 		<td width="100" align="right" class="key"><label for="nome_utente"> <?php 
-		if ( $userName = $campione->getUserName() ) {
+		echo '<div>'.JText::_( 'Nome Utente' ).':</div>';
+		if ( $campione->getUserName() ) {
 			$link = JRoute::_( 'index.php?option=com_users&task=edit&cid[]='. $campione->getIdUtente() );
-			echo '<a href="' . $link . '">' . JText::_( 'Nome Utente' ) . ':</a>';
-		} else {
-			echo '<div>'.JText::_( 'Nome Utente' ).':</div>';
+			$userName =  JText::_( '<a href="' . $link . '">' . $campione->getUserName() . '</a>' );			
+		} else {			
 			$userName = JText::_( 'Utente Joomla '. $campione->getIdUtente() .' Non presente' );
 		}
 		?> </label></td>
@@ -59,7 +59,7 @@ $campione = $this->campione;
 		</label></td>
 		<td><input class="inputbox required" type="text" id="provincia"
 			name="provincia" size="4" maxlength="2"
-			value="<?php if($provincia = $campione->getProvincia()) { echo $provincia->getNome(); } ?>" /> * <span>2 Lettere</span>
+			value="<?php if($provincia = $campione->getProvincia()) { echo $provincia->getSigla(); } ?>" /> * <span>2 Lettere</span>
 		</td>
 	</tr>
 	<tr>
@@ -85,7 +85,7 @@ $campione = $this->campione;
   		<?php echo $this->lists['kit']; ?>
   	</td>
 </tr>
-
+<?php if (!$this->isNew) { ?>
 	<tr>
 		<td width="100" align="right" class="key"><label for="recordtime"> <?php echo JText::_( 'Data di registrazione' ); ?>:
 		</label></td>
@@ -93,6 +93,7 @@ $campione = $this->campione;
 			id="registrazione" size="32" maxlength="250"
 			value="<?php echo $campione->getRegistrazione();?>" /></td>
 	</tr>
+<?php } ?>
 </table>
 </fieldset>
 </div>

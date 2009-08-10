@@ -1,12 +1,13 @@
 <?php
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-jimport('joomla.application.component.view');
+JLoader::register( 'CampioniViewBaseCampione', JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'campione'.DS.'campione.php');
 
-class CampioniViewCampione extends JView
+class CampioniViewCampione extends CampioniViewBaseCampione
 {
 	function display( $tpl = null )
 	{
+		$this->_showCampione();
 		$campione = $this->getModel();
 		$isNew = ( $campione->getId() < 1 );
 		$text = ($isNew) ? JText::_( 'New' ) : JText::_( 'Edit' );
@@ -14,10 +15,8 @@ class CampioniViewCampione extends JView
 		JToolBarHelper::title( JText::_('Campione') . ':<small>[ ' . $text . ' ]</small>');
 		JToolBarHelper::save();
 		JToolBarHelper::cancel();
-		
-
-		$this->assignRef( 'campione', $campione );
-		parent::display( $tpl );
+		$this->assignRef( 'isNew', $isNew );
+		parent::display( $tpl );		
 	}
 }
 ?>

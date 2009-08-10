@@ -90,6 +90,16 @@ class CampioniController extends JController
 		$document->setBuffer('Export');	
 		JRequest::setVar('format', 'raw');	*/
 	}
+	
+	function statisticaRegioni()
+	{
+		$campioni = $this->getModel( 'campioni' );
+		$regioni = $this->getModel( 'regioni' );
+		$view = $this->getView( 'statregioni', 'html' );
+		$view->setModel( $campioni, true);
+		$view->setModel( $regioni );
+		$view->display();
+	}
 
 }
 ?>

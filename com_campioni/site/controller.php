@@ -15,7 +15,8 @@ class CampioneController extends JController
 	{
 		$user = JFactory::getUser();
 		$model = $this->getModel('Campione', 'CampioniModel');
-		if ( ($user->gid < 19) && $model->isPresentJoomlaUser($user->id) ) {
+		$campioni = $this->getModel( 'campioni' );
+		if ( ($user->gid < 19) && $campioni->isPresentJoomlaUser($user->id) ) {
 			JError::raiseWarning( '', 'Hai gia richiestro un campione' );
 			return false;
 		}
@@ -28,7 +29,8 @@ class CampioneController extends JController
 	{
 		$user = JFactory::getUser();
 		$campione = $this->getModel('Campione', 'CampioniModel');
-		if ( ($user->gid < 19) && $campione->isPresentJoomlaUser($user->id) ) {
+		$campioni = $this->getModel( 'campioni' );
+		if ( ($user->gid < 19) && $campioni->isPresentJoomlaUser($user->id) ) {
 			JError::raiseWarning( '', 'Hai gia richiestro un campione' );
 			return false;
 		}
@@ -79,6 +81,12 @@ class CampioneController extends JController
 		$sent = $message->send();
 		if ($sent != 1) return false;
 		return true;
+	}
+	
+	function writeComment()
+	{
+		$commentView = $this->getView( 'comment', 'html' );
+		$commentView->display();
 	}
 
 }

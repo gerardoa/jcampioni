@@ -136,18 +136,25 @@ class CampioniModelCampioni extends JModel
 
 	function getNumCampioniByRegione( $regioneArg )
 	{
+		$map = $this->getMapCampioniPerRegione();
+		return @$map[$regioneArg->getId()];
+	}
+
+	function getMapCampioniPerRegione()
+	{
 		if ( empty($this->_mapNumCampioni)) {
 			$campioni = $this->getAllCampioni();
 			foreach ($campioni as $campione) {
 				$provincia = $campione->getProvincia();
 				$regione = $provincia->getRegione();
 				@$this->_mapNumCampioni[$regione->getId()] += 1;
+
 			}
 			/*foreach ($regioni as $regione) {
 			 $regione->numCampioni = $numCampioni[$regione->id];
 			 }*/
 		}
-		return @$this->_mapNumCampioni[$regioneArg->getId()];
+		return $this->_mapNumCampioni;
 	}
 
 	function getPagination()
@@ -219,7 +226,7 @@ class CampioniModelCampioni extends JModel
 		$table->figli_num = $obj->figli_num;
 		$table->figli_eta_media = $obj->figli_eta_media;
 		$table->codice_commento = $obj->codice_commento;
-		
+
 		return $campione;
 	}
 
@@ -228,13 +235,31 @@ class CampioniModelCampioni extends JModel
 		jimport('joomla.utilities.date');
 		$campione = new CampioniModelCampione();
 		$cids = $this->_ids;
-		$date = new JDate();
+		/*$config =& JFactory::getConfig();
+		 $tzoffset = $config->getValue('config.offset');
+		 //the offset is applied when doing this:
+		 $offsetdate = JFactory::getDate();
+		 $offsetdate->toMySQL(true);
+		 $offsetdate->setOffset($tzoffset);*/
+		$date = date("Y-m-d - H:i:s");
 		foreach ($cids as $cid) {
-			$campione->setId($cid);			
-			$campione->setDataSpedizione($date->toMySQL());
+			$campione->setId($cid);
+			$campione->setDataSpedizione($date);
 			$campione->store();
 		}
 	}
 
+	function isPresentJoomlaUser($id)
+	{
+		$db = $this->getDBO();
+		$query = 'SELECT id FROM ' . $this->_tableName . ' WHERE id_utente = ' . $db->Quote($id);
+		$db->setQuery($query, 0, 1);
+		$result = $db->loadResult();
+		if ( !empty($result) )  {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 ?>

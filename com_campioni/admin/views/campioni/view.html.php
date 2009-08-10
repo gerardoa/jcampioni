@@ -17,6 +17,7 @@ class CampioniViewCampioni extends JView
 		//JToolBarHelper::editList();
 		JHTML::_('stylesheet', 'campioni.css', 'administrator/components/com_campioni/css/');
 		JToolBarHelper::customX( 'delivered', 'letter', '', JText::_('Spedito') );
+		JToolBarHelper::customX( 'statisticaregioni', 'italyflag', '', JText::_('Statistica Regioni'), false);
 		JToolBarHelper::publish('exportToCVS', JText::_('Esporta'));
 		JToolBarHelper::deleteListX( JText::_('Vuoi davvero eliminarlo/i?') );
 

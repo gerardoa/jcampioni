@@ -171,11 +171,11 @@ class CampioniModelCampione extends JModel
 	}
 
 	function setUserName( $username ) {
-		$this->username = $username;
+		$this->_username = $username;
 	}
 
 	function getUserName() {
-		return $this->username;
+		return $this->_username;
 	}
 
 	function addEtaFiglio( $etaFiglio ) {
@@ -289,9 +289,9 @@ class CampioniModelCampione extends JModel
 		return $values;
 	}
 
-	function load()
+	function load($id = null)
 	{
-		$this->_campione->load($this->_id);
+		$this->_campione->load($id);
 		$this->_loadUserName();
 		return $this;
 	}
@@ -330,19 +330,5 @@ class CampioniModelCampione extends JModel
 		}
 		return false;
 	}
-
-	function isPresentJoomlaUser($id)
-	{
-		$db = $this->getDBO();
-		$query = 'SELECT id FROM ' . $this->_campione->getTableName() . ' WHERE id_utente = ' . $db->Quote($id);
-		$db->setQuery($query, 0, 1);
-		$result = $db->loadResult();
-		if ( !empty($result) )  {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 }
 ?>

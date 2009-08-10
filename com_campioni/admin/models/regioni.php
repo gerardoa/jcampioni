@@ -35,5 +35,19 @@ class CampioniModelRegioni extends JModel
 			$this->_regioni[] = $regione;
 		}
 	}
+	
+	function getRegioneById($id) 
+	{
+		if(empty($this->_regioni)) 
+		{
+			$this->findAll();
+		}
+		foreach ($this->_regioni as $regione) {
+			if ($regione->getId() == $id) {
+				return $regione;
+			}
+		}
+		return null;
+	}
 }
 ?>

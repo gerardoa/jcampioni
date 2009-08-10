@@ -25,6 +25,10 @@
 		<filename>views/ordineinviato/view.html.php</filename>
 		<filename>views/ordineinviato/tmpl/index.html</filename>
 		<filename>views/ordineinviato/tmpl/default.php</filename>
+		<filename>views/comment/index.html</filename>
+		<filename>views/comment/view.html.php</filename>
+		<filename>views/comment/tmpl/default.php</filename>
+		<filename>views/comment/tmpl/index.html</filename>
 	</files>
 
 	<install>
@@ -51,6 +55,7 @@
 		<files folder="admin">
 			<filename>css/campioni.css</filename>
 			<filename>icon/icon-32-letter.png</filename>
+			<filename>icon/icon-32-italyflag.png</filename>
 			<filename>install/install.sql</filename>
 			<filename>install/province.sql</filename>
 			<filename>install/regioni.sql</filename>
@@ -77,7 +82,11 @@
 			<filename>views/campione/index.html</filename>
 			<filename>views/campione/view.html.php</filename>
 			<filename>views/campione/tmpl/index.html</filename>
-			<filename>views/campione/tmpl/default.php</filename>
+			<filename>views/campione/tmpl/default.php</filename>			
+			<filename>views/statregioni/index.html</filename>
+			<filename>views/statregioni/view.html.php</filename>
+			<filename>views/statregioni/tmpl/index.html</filename>
+			<filename>views/statregioni/tmpl/default.php</filename>
 		</files>
 	</administration>
 </install>
