@@ -25,6 +25,8 @@
 		<filename>views/ordineinviato/view.html.php</filename>
 		<filename>views/ordineinviato/tmpl/index.html</filename>
 		<filename>views/ordineinviato/tmpl/default.php</filename>
+		<filename>css/star-rating.css</filename>
+		<filename>images/star-matrix.gif</filename>
 		<filename>views/comment/index.html</filename>
 		<filename>views/comment/view.html.php</filename>
 		<filename>views/comment/tmpl/default.php</filename>
@@ -38,14 +40,6 @@
 			<file charset="utf8" driver="mysql">install/install.sql</file>
 			<file charset="utf8" driver="mysql">install/sampledata.sql</file>
 		</sql>
-		<!--
-			<queries> <query> DROP TABLE IF EXISTS `#__campioni_richieste`; </query> <query> CREATE TABLE IF NOT EXISTS `jos_campioni_richieste` ( `id` int(11)
-			NOT NULL AUTO_INCREMENT, `id_utente` int(11) NOT NULL, `registrazione` datetime NOT NULL, `ip` varchar(128) NOT NULL, `nome` varchar(32) NOT NULL,
-			`cognome` varchar(32) NOT NULL, `eta` tinyint(4) NOT NULL, `email` varchar(64) NOT NULL, `indirizzo` varchar(64) NOT NULL, `provincia` varchar(32)
-			NOT NULL, `citta` varchar(32) NOT NULL, `cap` int(5) unsigned zerofill NOT NULL, `kit` varchar(64) NOT NULL, `richiesta_stato` varchar(32) DEFAULT
-			NULL, `figli_num` tinyint(4) DEFAULT NULL, `figli_eta_media` float DEFAULT NULL, PRIMARY KEY (`id`) ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ; </query>
-			<query> ALTER TABLE `jos_campioni_richieste` ADD `data_spedizione` DATE NULL; </query> </queries>
-		-->
 	</install>
 	<administration>
 		<!-- Administration Menu Section -->

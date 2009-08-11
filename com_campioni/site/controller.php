@@ -15,7 +15,7 @@ class CampioneController extends JController
 	{
 		$user = JFactory::getUser();
 		$model = $this->getModel('Campione', 'CampioniModel');
-		$campioni = $this->getModel( 'campioni' );
+		$campioni = $this->getModel( 'campioni', 'CampioniModel' );
 		if ( ($user->gid < 19) && $campioni->isPresentJoomlaUser($user->id) ) {
 			JError::raiseWarning( '', 'Hai gia richiestro un campione' );
 			return false;
@@ -29,7 +29,7 @@ class CampioneController extends JController
 	{
 		$user = JFactory::getUser();
 		$campione = $this->getModel('Campione', 'CampioniModel');
-		$campioni = $this->getModel( 'campioni' );
+		$campioni = $this->getModel( 'campioni', 'CampioniModel' );
 		if ( ($user->gid < 19) && $campioni->isPresentJoomlaUser($user->id) ) {
 			JError::raiseWarning( '', 'Hai gia richiestro un campione' );
 			return false;
@@ -85,8 +85,30 @@ class CampioneController extends JController
 	
 	function writeComment()
 	{
+		$campioniModel = $this->getModel( 'campioni', 'CampioniModel' );
+		$user = JFactory::getUser();
+		$campione = $campioniModel->getCampioneByUserId( $user->id );
+		if ($campione) {
 		$commentView = $this->getView( 'comment', 'html' );
+		$commentView->setModel( $campione, true );
 		$commentView->display();
+		} else {
+			JError::raiseWarning('', 'Richiedi prima un campione' );
+		}
+	}
+	
+	function saveComment()
+	{
+		$campioniModel = $this->getModel( 'campioni', 'CampioniModel' );
+		$user = JFactory::getUser();
+		$campione = $campioniModel->getCampioneByUserId( $user->id );
+		$campione->setTestoCommento( JRequest::getString('testo_commento') );
+		$campione->setVotoCommento( JRequest::getInt('voto_commento', null) );
+		if ( $campione->store() ) {
+			echo 'Commento Salvato';
+		} else {
+			JError::raiseWarning( '', 'Commento non salvato' );
+		} 		
 	}
 
 }

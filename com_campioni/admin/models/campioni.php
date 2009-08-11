@@ -261,5 +261,18 @@ class CampioniModelCampioni extends JModel
 			return false;
 		}
 	}
+	
+	function getCampioneByUserId($id)
+	{
+		$db = $this->getDBO();
+		$query = 'SELECT * FROM ' . $this->_tableName . ' WHERE id_utente = ' . $db->Quote($id);
+		$db->setQuery($query, 0, 1);
+		$result = $db->loadObject();
+		if ( !empty($result) )  {
+			return $this->_loadCampione($result);
+		} else {
+			return false;
+		}
+	}
 }
 ?>

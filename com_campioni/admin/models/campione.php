@@ -213,9 +213,29 @@ class CampioniModelCampione extends JModel
 	function getDataSpedizione() {
 		return $this->_campione->data_spedizione;
 	}
-	
+
 	function getCodiceCommento() {
 		return $this->_campione->codice_commento;
+	}
+
+	function setTestoCommento( $text )
+	{
+		$this->_campione->testo_commento = $text;
+	}
+
+	function getTestoCommento()
+	{
+		return $this->_campione->testo_commento;
+	}
+
+	function setVotoCommento( $vote )
+	{
+		$this->_campione->voto_commento = $vote;
+	}
+
+	function getVotoCommento()
+	{
+		return $this->_campione->voto_commento;
 	}
 
 	function bind() {
@@ -313,11 +333,13 @@ class CampioniModelCampione extends JModel
 			$this->setError( $this->_campione->getError() );
 			return false;
 		}
-		$this->_createCodiceCommento();
-		$this->_campione->store();
+		if ( !$this->_campione->codice_commento ) {
+			$this->_createCodiceCommento();
+			$this->_campione->store();
+		}
 		return true;
 	}
-	
+
 	function _createCodiceCommento() {
 		$this->_campione->codice_commento = $this->_campione->id . date('dm');
 	}
