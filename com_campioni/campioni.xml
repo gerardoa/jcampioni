@@ -44,6 +44,10 @@
 	<administration>
 		<!-- Administration Menu Section -->
 		<menu>Campioni</menu>
+		<submenu>
+			<menu link="option=com_campioni&amp;task=messages">Hello World!</menu>
+		</submenu>
+		
 
 		<!-- Administration Main File Copy Section -->
 		<files folder="admin">
