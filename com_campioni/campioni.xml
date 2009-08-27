@@ -38,16 +38,12 @@
 			<file charset="utf8" driver="mysql">install/regioni.sql</file>
 			<file charset="utf8" driver="mysql">install/province.sql</file>
 			<file charset="utf8" driver="mysql">install/install.sql</file>
-			<file charset="utf8" driver="mysql">install/sampledata.sql</file>
+			<!--<file charset="utf8" driver="mysql">install/sampledata.sql</file>-->
 		</sql>
 	</install>
 	<administration>
 		<!-- Administration Menu Section -->
-		<menu>Campioni</menu>
-		<submenu>
-			<menu link="option=com_campioni&amp;task=messages">Hello World!</menu>
-		</submenu>
-		
+		<menu>Campioni</menu>		
 
 		<!-- Administration Main File Copy Section -->
 		<files folder="admin">
@@ -79,6 +75,7 @@
 			<filename>views/campioni/tmpl/default.php</filename>
 			<filename>views/campione/index.html</filename>
 			<filename>views/campione/view.html.php</filename>
+			<filename>views/campione/campione.php</filename>
 			<filename>views/campione/tmpl/index.html</filename>
 			<filename>views/campione/tmpl/default.php</filename>			
 			<filename>views/statregioni/index.html</filename>

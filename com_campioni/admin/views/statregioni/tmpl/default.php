@@ -1,10 +1,10 @@
 <?php defined('_JEXEC') or die('Restricted access');
 ?>
 <form action="index.php" method="post" name="adminForm">
-<table class="adminlist">
+<table class="adminlist" style="width: 30%;">
 	<thead>
 		<tr>
-			<th width="20"><?php echo JText::_( 'Nome Regione' ); ?></th>
+			<th width="200"><?php echo JText::_( 'Nome Regione' ); ?></th>
 			<th><?php echo JText::_( 'Numero campioni' ); ?></th>
 		</tr>
 	</thead>
