@@ -47,6 +47,9 @@
 
 		<!-- Administration Main File Copy Section -->
 		<files folder="admin">
+			<filename>bo/campione.php</filename>
+			<filename>bo/provincia.php</filename>
+			<filename>bo/regione.php</filename>
 			<filename>css/campioni.css</filename>
 			<filename>icon/icon-32-letter.png</filename>
 			<filename>icon/icon-32-italyflag.png</filename>
