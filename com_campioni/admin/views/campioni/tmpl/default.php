@@ -83,11 +83,14 @@ $rows = $this->campioni;
 	        <td> 
 	          <?php 
 	          $provincia = $row->getProvincia();
-	          $regione = $provincia->getRegione();
-	          if ( !($provinciaNome = $provincia->getNome() ) ) {
-	          	$provinciaNome = 'sigla non trovata';
+	          
+	          if ( !$provincia->getId() ) {
+	          	$testoProvincia = $provincia->getSigla() . ' provincia non presente nel db';
+	          } else {
+	          	$regione = $provincia->getRegione();
+	          	$testoProvincia = $provincia->getSigla() . ' (' . $provincia->getNome() . ' | ' . $regione->getNome() .')';
 	          }      
-	          echo $provincia->getSigla() . ' (' . $provinciaNome . ' | ' . $regione->getNome() .')'; ?> 
+	          echo $testoProvincia; ?> 
 	        </td>
 	        <td> 
 	          <?php echo $row->getCitta(); ?> 

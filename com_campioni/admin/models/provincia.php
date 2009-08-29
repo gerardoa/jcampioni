@@ -2,6 +2,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
+JLoader::register('Provincia', JPATH_COMPONENT_ADMINISTRATOR.DS.'bo'.DS.'provincia.php' );
 
 class CampioniModelProvincia extends JModel
 {
@@ -40,6 +41,7 @@ class CampioniModelProvincia extends JModel
 
 	function setSigla( $sigla ) {
 		$this->_provincia->sigla = $sigla;
+		$this->setId(0);
 	}
 
 	function getSigla() {
@@ -60,8 +62,14 @@ class CampioniModelProvincia extends JModel
 	}
 
 	function load() {
+		$provincia = null;
 		if ( $this->_provincia->id) {
 			$this->_provincia->load();
+			$provincia = new Provincia();
+			$provincia->setId($this->_provincia->id);
+			$provincia->_idRegione = $this->_provincia->id_regione;
+			$provincia->setNome($this->_provincia->provincia);
+			$provincia->setSigla($this->_provincia->sigla);	
 		} else if ( $sigla = $this->_provincia->sigla) {
 			$db = $this->_provincia->getDBO();
 			$query = "SELECT * FROM " . $this->_provincia->getTableName() ." WHERE sigla = " . $db->Quote($sigla);
@@ -69,17 +77,19 @@ class CampioniModelProvincia extends JModel
 			$prov = $db->loadObject();
 			if ( empty( $prov ) ) {
 				$this->setError( 'Sigla non trovata' );
-				return false;
+				return null;
 			}
+			$provincia = new Provincia();
 			$this->_provincia->id = $prov->id;
+			$provincia->setId($prov->id);
 			$this->_provincia->id_regione = $prov->id_regione;
+			$provincia->_idRegione = $prov->id_regione;
 			$this->_provincia->provincia = $prov->provincia;
+			$provincia->setNome($prov->provincia);
 			$this->_provincia->sigla = $prov->sigla;
-			return true;
+			$provincia->setSigla($prov->sigla);			
 		}
-		if ( _regione != null ) {
-			$this->_regione->load();
-		}
+		return $provincia;
 	}
 
 	function bind() {

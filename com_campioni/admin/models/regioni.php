@@ -2,6 +2,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
+JLoader::register('Regione', JPATH_COMPONENT_ADMINISTRATOR.DS.'bo'.DS.'regione.php' );
 
 class CampioniModelRegioni extends JModel
 {
@@ -29,7 +30,7 @@ class CampioniModelRegioni extends JModel
 	{
 		$this->_regioni = array();
 		foreach ($objList as $obj) {
-			$regione = $this->getInstance( 'regione', 'CampioniModel' );
+			$regione = new Regione();
 			$regione->setId( $obj->id );
 			$regione->setNome( $obj->regione );
 			$this->_regioni[] = $regione;

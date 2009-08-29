@@ -3,6 +3,7 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
 JLoader::register('CampioniModelCampione', JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'campione.php' );
+JLoader::register('Campione', JPATH_COMPONENT_ADMINISTRATOR.DS.'bo'.DS.'campione.php' );
 
 class CampioniModelCampioni extends JModel
 {
@@ -146,9 +147,12 @@ class CampioniModelCampioni extends JModel
 			$campioni = $this->getAllCampioni();
 			foreach ($campioni as $campione) {
 				$provincia = $campione->getProvincia();
-				$regione = $provincia->getRegione();
-				@$this->_mapNumCampioni[$regione->getId()] += 1;
-
+				if ($provincia) {
+					$regione = $provincia->getRegione();
+					@$this->_mapNumCampioni[$regione->getId()] += 1;
+				} else {
+					@$this->_mapNumCampioni[0] += 1;
+				}
 			}
 			/*foreach ($regioni as $regione) {
 			 $regione->numCampioni = $numCampioni[$regione->id];
@@ -205,7 +209,7 @@ class CampioniModelCampioni extends JModel
 	}
 
 	function _loadCampione($obj) {
-		$campione = new CampioniModelCampione();
+		$campione = new Campione();
 		$campione->setId( $obj->id );
 		$campione->setIdUtente($obj->id_utente);
 		$campione->setRegistrazione( $obj->registrazione);
@@ -221,11 +225,10 @@ class CampioniModelCampioni extends JModel
 		$campione->setRichiestaStato( $obj->richiesta_stato );
 		$campione->setDataSpedizione($obj->data_spedizione);
 		// Fill private fields
-		$table = $campione->getTableCampione();
-		$table->provincia = $obj->provincia;
-		$table->figli_num = $obj->figli_num;
-		$table->figli_eta_media = $obj->figli_eta_media;
-		$table->codice_commento = $obj->codice_commento;
+		$campione->_siglaProvincia = $obj->provincia;
+		$campione->_figliNum = $obj->figli_num;
+		$campione->_figliEtaMedia = $obj->figli_eta_media;
+		$campione->_codiceCommento = $obj->codice_commento;
 
 		return $campione;
 	}
@@ -261,7 +264,7 @@ class CampioniModelCampioni extends JModel
 			return false;
 		}
 	}
-	
+
 	function getCampioneByUserId($id)
 	{
 		$db = $this->getDBO();
