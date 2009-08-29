@@ -4,6 +4,8 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
 JLoader::register('CampioniModelCampione', JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'campione.php' );
 JLoader::register('Campione', JPATH_COMPONENT_ADMINISTRATOR.DS.'bo'.DS.'campione.php' );
+JLoader::register('Provincia', JPATH_COMPONENT_ADMINISTRATOR.DS.'bo'.DS.'provincia.php' );
+JLoader::register('Regione', JPATH_COMPONENT_ADMINISTRATOR.DS.'bo'.DS.'regione.php' );
 
 class CampioniModelCampioni extends JModel
 {
@@ -18,6 +20,17 @@ class CampioniModelCampioni extends JModel
 	var $_pagination;
 	var $_total;
 	var $_mapNumCampioni = array();
+	
+	/**
+	 * 
+	 * @var TableProvincia
+	 */
+	var $_tableProvincia;
+	/**
+	 * 
+	 * @var TableRegione
+	 */
+	var $_tableRegione;
 
 
 	function __construct()
@@ -25,6 +38,8 @@ class CampioniModelCampioni extends JModel
 		global $mainframe, $option;
 		parent::__construct();
 		$table = $this->getTable( 'campione' );
+		$this->_tableProvincia = $this->getTable( 'provincia' );
+		$this->_tableRegione = $this->getTable( 'regione' );
 		$this->_tableName = $table->getTableName();
 		$ids = JRequest::getVar( 'cid', null, 'default', 'array' );
 		$this->setIds( $ids );
@@ -45,7 +60,13 @@ class CampioniModelCampioni extends JModel
 
 	function _buildQuery()
 	{
-		$query = ' SELECT * FROM ' . $this->_tableName . $this->_buildQueryOrderBy();
+		$province = $this->_tableProvincia->getTableName();
+		$regioni = $this->_tableRegione->getTableName();		
+		$query = 'SELECT c.*, p.id AS pid, p.id_regione, p.provincia AS provincianome, p.sigla, r.id AS rid, r.regione' .
+		        ' FROM ' . $this->_tableName . ' AS c' . 
+				' LEFT JOIN ' . $province . ' AS p ON p.sigla = c.provincia' .
+				' LEFT JOIN ' . $regioni . ' AS r ON p.id_regione = r.id' .
+		        $this->_buildQueryOrderBy();
 		return $query;
 
 	}
@@ -225,7 +246,21 @@ class CampioniModelCampioni extends JModel
 		$campione->setRichiestaStato( $obj->richiesta_stato );
 		$campione->setDataSpedizione($obj->data_spedizione);
 		// Fill private fields
-		$campione->_siglaProvincia = $obj->provincia;
+		if ($obj->pid) {
+			$provincia = new Provincia();
+			$provincia->setId($obj->pid);
+			$provincia->setNome($obj->provincianome);
+			$provincia->setSigla($obj->sigla);
+			if ($obj->rid) {
+				$regione = new Regione();
+				$regione->setId($obj->rid);
+				$regione->setNome($obj->regione);
+				$provincia->setRegione($regione);
+			}
+			$campione->setProvincia($provincia);
+		} else {
+			$campione->_siglaProvincia = $obj->provincia;
+		}
 		$campione->_figliNum = $obj->figli_num;
 		$campione->_figliEtaMedia = $obj->figli_eta_media;
 		$campione->_codiceCommento = $obj->codice_commento;
