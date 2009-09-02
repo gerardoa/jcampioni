@@ -88,8 +88,8 @@ class CampioneController extends JController
 		$message->setBody( $mailText );
 		$message->setSender($sender);
 		$sent = $message->send();
-		if ($sent != 1) return false;
-		return true;
+		if ($sent === true) return true;
+		return false;
 	}
 	
 	function writeComment()

@@ -10,7 +10,7 @@ class JElementEditor extends JElement
 		$value = str_replace('<br />', "\n", $value);
 		$editor = JFactory::getEditor();
 		return $editor->display( $control_name.'['.$name.']', 
-			$value, '80%', '400', '40', '15', null ) ;
+			$value, '90%', '400', '40', '15', null ) ;
 	}
 }
 ?>

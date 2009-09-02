@@ -39,9 +39,9 @@
                         <fileset refid="allfiles" />
                 </zip>
                 
-                <delete file="${src}/com_${compname}_dev.tar.gz" />
+                --><delete file="${src}/com_${compname}_dev.tar.gz" />
                 <tar destfile="${src}/com_${compname}_dev.tar.gz" compression="gzip">
                         <fileset refid="allfiles" />
                 </tar>
-        --></target>
+        </target>
 </project>

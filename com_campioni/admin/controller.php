@@ -112,10 +112,15 @@ class CampioniController extends JController
 		$campione->setIndirizzo( 'Via Santa Lucia, 12' );
 		$campione->setCap( '80067' );
 		$campione->setCitta( 'Sorrento' );
+		$campione->setId( '12345' );
 		$user = JFactory::getUser();
-		$frontController->_sendMail( $user->email, $campione );
 		$link = JRoute::_('index.php?option=com_campioni');
-		$this->setRedirect($link, JText::_('Email Inviata a:') . ' ' . $user->email );
+		if ($frontController->_sendMail( $user->email, $campione ) ) {				
+			$this->setRedirect($link, JText::_('Email Inviata a:') . ' ' . $user->email );
+		} else {
+			JError::raiseWarning('',JText::_('Tentativo di inviare a:') . ' ' . $user->email . ' fallito' );
+			$this->setRedirect($link);
+		}
 	}
 
 }

@@ -246,7 +246,7 @@ class Campione
 	function getVotoCommento()
 	{
 		return $this->_votoCommento;
-	}
+	}	
 
 	function toArrayValues()
 	{
