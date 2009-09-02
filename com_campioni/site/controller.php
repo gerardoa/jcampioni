@@ -40,9 +40,8 @@ class CampioneController extends JController
 			$view->display();
 			return false;
 		}
-		$numOrder = $campione->getNumOrder();
 		
-		$this->_sendMail( $user, $numOrder );
+		$this->_sendMail( $user->email, $campione );
 
 		$view = $this->getView( 'ordineinviato', 'html' );
 		$view->setModel( $campione, true );
@@ -50,13 +49,17 @@ class CampioneController extends JController
 		return true;
 	}
 
-	function _sendMail( $user, $numOrder )
-	{
+	function _sendMail( $email, $campione )
+	{		
 		$config = JFactory::getConfig();
 		$mailfrom = $config->getValue( 'config.mailfrom' );
 		$fromname = $config->getValue( 'config.fromname' );
 		$sender = array( $mailfrom, $fromname );
-		$recipients = array($user->email);
+		if ($email) {
+		$recipients = array($email);
+		} else {
+			$recipients = array( $campione->getEmail() );
+		}
 		//get all super administrator
 		$db = JFactory::getDBO();
 		$query = 'SELECT name, email, sendEmail' .
@@ -76,7 +79,13 @@ class CampioneController extends JController
 		$message =& JFactory::getMailer();
 		$message->addRecipient( $recipients );
 		$message->setSubject('Richiesta Campioni Gratuiti');
-		$message->setBody("La tua richiestra e' stata ricevuta correttamente, e il codice associato e' " . $numOrder );
+		
+		$params = JComponentHelper::getParams( 'com_campioni' );
+		$mailText = $params->get( 'confirm_mail_text', "La tua richiestra e' stata ricevuta correttamente, e il codice associato e' [NUMORD]" );
+		$search = array( '[NOME]', '[COGNOME]', '[INDIRIZZO]', '[CITTA]', '[CAP]', '[NUMORD]' );
+		$replace = array( $campione->getNome(), $campione->getCognome(), $campione->getIndirizzo(), $campione->getCitta(), $campione->getCap(), $campione->getNumOrder() );
+		$mailText = str_replace( $search, $replace, $mailText );
+		$message->setBody( $mailText );
 		$message->setSender($sender);
 		$sent = $message->send();
 		if ($sent != 1) return false;

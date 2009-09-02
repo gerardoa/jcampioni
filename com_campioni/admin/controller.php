@@ -100,6 +100,23 @@ class CampioniController extends JController
 		$view->setModel( $regioni );
 		$view->display();
 	}
+	
+	function testConfirmEmail()
+	{
+		JLoader::register('CampioneController', JPATH_COMPONENT_SITE.DS.'controller.php' );
+		JLoader::register('Campione', JPATH_COMPONENT_ADMINISTRATOR.DS.'bo'.DS.'campione.php' );
+		$frontController = new CampioneController();
+		$campione = new Campione();
+		$campione->setNome( 'Gerardo' );
+		$campione->setCognome( 'Adelizzi' );
+		$campione->setIndirizzo( 'Via Santa Lucia, 12' );
+		$campione->setCap( '80067' );
+		$campione->setCitta( 'Sorrento' );
+		$user = JFactory::getUser();
+		$frontController->_sendMail( $user->email, $campione );
+		$link = JRoute::_('index.php?option=com_campioni');
+		$this->setRedirect($link, JText::_('Email Inviata a:') . ' ' . $user->email );
+	}
 
 }
 ?>

@@ -16,10 +16,12 @@ class CampioniViewCampioni extends JView
 		JToolBarHelper::addNew();
 		//JToolBarHelper::editList();
 		JHTML::_('stylesheet', 'campioni.css', 'administrator/components/com_campioni/css/');
-		JToolBarHelper::customX( 'delivered', 'letter', '', JText::_('Spedito') );
-		JToolBarHelper::customX( 'statisticaregioni', 'italyflag', '', JText::_('Statistica Regioni'), false);
-		JToolBarHelper::publish('exportToCVS', JText::_('Esporta'));
+		JToolBarHelper::customX( 'delivered', 'letter', 'spedito', JText::_('Spedito') );
+		JToolBarHelper::customX( 'statisticaregioni', 'italyflag', 'statistica regioni', JText::_('Statistica Regioni'), false);
+		JToolBarHelper::customX('exportToCVS', 'export', 'esporta', JText::_('Esporta'), false);
+		JToolBarHelper::customX( 'testConfirmEmail', 'emailserver', 'test email', JText::_('Test Email di Conferma'), false );
 		JToolBarHelper::deleteListX( JText::_('Vuoi davvero eliminarlo/i?') );
+		JToolBarHelper::preferences( 'com_campioni', 600, 700 );		
 
 		$lists = array();
 		$lists['order'] = $mainframe->getUserStateFromRequest( $option.'filter_order', 'filter_order', 'registrazione' );
