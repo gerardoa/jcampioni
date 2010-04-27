@@ -85,6 +85,7 @@ class CampioneController extends JController
 		$search = array( '[NOME]', '[COGNOME]', '[INDIRIZZO]', '[CITTA]', '[CAP]', '[NUMORD]' );
 		$replace = array( $campione->getNome(), $campione->getCognome(), $campione->getIndirizzo(), $campione->getCitta(), $campione->getCap(), $campione->getNumOrder() );
 		$mailText = str_replace( $search, $replace, $mailText );
+		$message->IsHTML(true);
 		$message->setBody( $mailText );
 		$message->setSender($sender);
 		$sent = $message->send();
