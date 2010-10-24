@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>  
+	<params addPath="/administrator/components/com_campioni/elements"> 
+		<param name="confirm_mail_text" type="editor" multiple="multiple" label="Mail conferma &lt;br&gt;&lt;br&gt; Campi Dinamici:&lt;br&gt; [NOME]&lt;br&gt; [COGNOME]&lt;br&gt; [INDIRIZZO]&lt;br&gt; [CITTA]&lt;br&gt; [CAP]&lt;br&gt; [NUMORD]&lt;br&gt;" description="Messaggio di conferma inviato tramite e-mail." />      
+	</params>  
+	<!--<params addPath="/administrator/components/com_campioni/elements">
+		<param type="text" name="font_size" size="3" label="Font size:" description="Please enter the required font size" />
+	</params>
+    --><!--<url addpath="/administrator/components/com_campioni/elements">
+    	<param type="editor" name="confirm_mail_text" scope="com_campioni" laberl="Mail conferma" description="Messaggio di conferma inviato tramite e-mail" />
+ 	</url>
+    --><!-- Example: the following will produce a text box 3 characters wide with the label 'Font size:'.  
+    When the user hovers the mouse over the label, a tooltip will pop up which states 'Please enter the 
+    required font size'.  On saving, a value entered into the text box will be saved as the 'font_size' 
+    parameter value. -->
+</config>
