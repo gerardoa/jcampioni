@@ -8,7 +8,7 @@
 	<author>Gerardo Adelizzi</author>
 	<authorEmail>g.adelizzi@gmail.com</authorEmail>
 	<!--  The version string is recorded in the components table -->
-	<version>2.3</version>
+	<version>2.3.5</version>
 	<!-- The description is optional and defaults to the name -->
 	<description>Richiesta campioni</description>
 	
@@ -37,19 +37,19 @@
 		<filename>views/comment/tmpl/index.html</filename>
 	</files>
 
-	<!--<install>
+	<install>
 		<sql>
 			<file charset="utf8" driver="mysql">install/regioni.sql</file>
 			<file charset="utf8" driver="mysql">install/province.sql</file>
 			<file charset="utf8" driver="mysql">install/install.sql</file>
-			<file charset="utf8" driver="mysql">install/sampledata.sql</file>
+<!--			<file charset="utf8" driver="mysql">install/sampledata.sql</file>-->
 		</sql>
 	</install>
 	<uninstall>
     	<sql>
     		<file charset="utf8" driver="mysql">install/uninstall.sql</file>
   		</sql>
-	</uninstall>-->
+	</uninstall>
 	<administration>
 		<!-- Administration Menu Section -->
 		<menu>Campioni</menu>

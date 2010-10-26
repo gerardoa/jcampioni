@@ -34,11 +34,20 @@ class CampioniModelRegione extends JModel
 		return $this->_regione->regione;
 	}
 
-	function load() {
-		$this->_regione->load();
+	function load( $obj = null ) {
 		$regione = new Regione();
-		$regione->setId($this->_regione->id);
-		$regione->setNome($this->_regione->regione);
+		if ( $obj ) {
+			// From obj db			
+			$regione->setId($obj->id);
+			$regione->setNome($obj->regione);	
+			$regione->setRegionCode($obj->region_code);		
+		} else {
+			// From JTable
+			$this->_regione->load();
+			$regione->setId($this->_regione->id);
+			$regione->setNome($this->_regione->regione);
+			$regione->setRegionCode($this->_regione->region_code);	
+		}
 		return $regione;
 	}
 

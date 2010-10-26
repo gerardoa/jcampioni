@@ -6,7 +6,8 @@ class Regione
 {
 	var $_id;
 	var $_regione;
-	
+	var $_regionCode;
+
 	function setId( $id ) {
 		$this->_id = $id;
 	}
@@ -21,6 +22,14 @@ class Regione
 
 	function getNome() {
 		return $this->_regione;
+	}
+
+	function setRegionCode( $regionCode ) {
+		$this->_regionCode = $regionCode;
+	}
+
+	function getRegionCode() {
+		return $this->_regionCode;
 	}
 }
 ?>

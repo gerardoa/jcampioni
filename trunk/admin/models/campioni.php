@@ -311,6 +311,7 @@ class CampioniModelCampioni extends JModel
 		} else {
 			return false;
 		}
-	}
+	}		
+	
 }
 ?>

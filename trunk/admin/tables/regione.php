@@ -5,6 +5,7 @@ class TableRegione extends JTable
 {
 	var $id = null;
 	var $regione = null;
+	var $region_code = null;
 	
 	function __construct(&$db)
 	{
