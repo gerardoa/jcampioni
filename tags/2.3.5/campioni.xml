@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0">
+	<name>Campioni</name>
+	<!--
+		The following elements are optional and free of formatting conttraints
+	-->
+	<creationDate>2009-09-02</creationDate>
+	<author>Gerardo Adelizzi</author>
+	<authorEmail>g.adelizzi@gmail.com</authorEmail>
+	<!--  The version string is recorded in the components table -->
+	<version>2.3.5</version>
+	<!-- The description is optional and defaults to the name -->
+	<description>Richiesta campioni</description>
+	
+	<params>
+ 		<param name="confirm_mail_text" default="La tua richiestra e' stata ricevuta correttamente, e il codice associato e' [NUMORD]." />
+  	</params>	
+
+	<files folder="site">
+		<filename>controller.php</filename>
+		<filename>campioni.php</filename>
+		<filename>index.html</filename>
+		<filename>views/index.html</filename>
+		<filename>views/campione/index.html</filename>
+		<filename>views/campione/view.html.php</filename>
+		<filename>views/campione/tmpl/default.php</filename>
+		<filename>views/campione/tmpl/index.html</filename>
+		<filename>views/ordineinviato/index.html</filename>
+		<filename>views/ordineinviato/view.html.php</filename>
+		<filename>views/ordineinviato/tmpl/index.html</filename>
+		<filename>views/ordineinviato/tmpl/default.php</filename>
+		<filename>css/star-rating.css</filename>
+		<filename>images/star-matrix.gif</filename>
+		<filename>views/comment/index.html</filename>
+		<filename>views/comment/view.html.php</filename>
+		<filename>views/comment/tmpl/default.php</filename>
+		<filename>views/comment/tmpl/index.html</filename>
+	</files>
+
+	<install>
+		<sql>
+			<file charset="utf8" driver="mysql">install/regioni.sql</file>
+			<file charset="utf8" driver="mysql">install/province.sql</file>
+			<file charset="utf8" driver="mysql">install/install.sql</file>
+<!--			<file charset="utf8" driver="mysql">install/sampledata.sql</file>-->
+		</sql>
+	</install>
+	<uninstall>
+    	<sql>
+    		<file charset="utf8" driver="mysql">install/uninstall.sql</file>
+  		</sql>
+	</uninstall>
+	<administration>
+		<!-- Administration Menu Section -->
+		<menu>Campioni</menu>
+		<!--<submenu>
+			<menu link="option=com_campioni&amp;task=config">Configurazione</menu>
+		</submenu>		
+
+		--><!-- Administration Main File Copy Section -->
+		<files folder="admin">
+			<filename>campioni.php</filename>
+			<filename>controller.php</filename>
+			<filename>config.xml</filename>
+			<filename>index.html</filename>
+			<filename>bo/campione.php</filename>
+			<filename>bo/provincia.php</filename>
+			<filename>bo/regione.php</filename>
+			<filename>css/campioni.css</filename>
+			<filename>elements/editor.php</filename>
+			<filename>elements/index.html</filename>
+			<filename>icon/icon-32-letter.png</filename>
+			<filename>icon/icon-32-italyflag.png</filename>
+			<filename>icon/icon-32-emailserver.png</filename>
+			<filename>icon/icon-32-export.png</filename>
+			<filename>install/install.sql</filename>
+			<filename>install/province.sql</filename>
+			<filename>install/regioni.sql</filename>
+			<filename>install/sampledata.sql</filename>
+			<!--<filename>install/uninstall.sql</filename>-->
+			<filename>models/campione.php</filename>
+			<filename>models/campioni.php</filename>
+			<filename>models/index.html</filename>
+			<filename>models/provincia.php</filename>
+			<filename>models/regione.php</filename>
+			<filename>models/regioni.php</filename>
+			<filename>tables/campione.php</filename>
+			<filename>tables/provincia.php</filename>
+			<filename>tables/regione.php</filename>
+			<filename>tables/index.html</filename>
+			<filename>views/index.html</filename>
+			<filename>views/campioni/index.html</filename>
+			<filename>views/campioni/view.html.php</filename>
+			<filename>views/campioni/view.raw.php</filename>
+			<filename>views/campioni/tmpl/index.html</filename>
+			<filename>views/campioni/tmpl/default.php</filename>
+			<filename>views/campione/index.html</filename>
+			<filename>views/campione/view.html.php</filename>
+			<filename>views/campione/campione.php</filename>
+			<filename>views/campione/tmpl/index.html</filename>
+			<filename>views/campione/tmpl/default.php</filename>			
+			<filename>views/statregioni/index.html</filename>
+			<filename>views/statregioni/view.html.php</filename>
+			<filename>views/statregioni/tmpl/index.html</filename>
+			<filename>views/statregioni/tmpl/default.php</filename>
+		</files>
+	</administration>
+</install>
