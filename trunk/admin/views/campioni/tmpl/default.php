@@ -40,7 +40,7 @@ $rows = $this->campioni;
 	    </thead>
 	    <tfoot>
 			<tr>
-				<td colspan="16">
+				<td colspan="17">
 					<?php echo $this->pageNav->getListFooter(); ?>
 				</td>
 			</tr>

@@ -12,7 +12,6 @@ class CampioniModelCampioni extends JModel
 	var $_ids = null;
 	var $_campioni;
 
-	var $_filteredCampioni;
 	var $_allCampioni;
 	var $_regioni;
 
@@ -20,7 +19,6 @@ class CampioniModelCampioni extends JModel
 	var $_pagination;
 	var $_total;
 	var $_mapNumCampioni = array();
-	
 	/**
 	 * 
 	 * @var TableProvincia
@@ -44,6 +42,8 @@ class CampioniModelCampioni extends JModel
 		$ids = JRequest::getVar( 'cid', null, 'default', 'array' );
 		$this->setIds( $ids );
 		$this->campioni = array();
+		$filterRegioneId = $mainframe->getUserStateFromRequest( $option.'filter_regioneid', 'filter_regioneid', 0, 'int' );
+		$this->setState('filterRegioneId', $filterRegioneId);
 		// Get the pagination request variables
 		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
 		$limitStart = $mainframe->getUserStateFromRequest($option.'limitstart', 'limitstart', 0);
@@ -58,17 +58,35 @@ class CampioniModelCampioni extends JModel
 		$this->_campioni = array();
 	}
 
-	function _buildQuery()
+	function _buildQuery( $all = false )
 	{
-		$province = $this->_tableProvincia->getTableName();
-		$regioni = $this->_tableRegione->getTableName();		
+		$body = $this->_buildQueryBody();
+		$where = ($all) ? '' : $this->_buildQueryWhere();
+		$orderBy =  $this->_buildQueryOrderBy();
 		$query = 'SELECT c.*, p.id AS pid, p.id_regione, p.provincia AS provincianome, p.sigla, r.id AS rid, r.regione' .
-		        ' FROM ' . $this->_tableName . ' AS c' . 
-				' LEFT JOIN ' . $province . ' AS p ON p.sigla = c.provincia' .
-				' LEFT JOIN ' . $regioni . ' AS r ON p.id_regione = r.id' .
-		        $this->_buildQueryOrderBy();
+		         $body .
+				 $where .
+		         $orderBy
+				 ;
 		return $query;
 
+	}
+	
+	function _buildQueryBody() 
+	{
+		$province = $this->_tableProvincia->getTableName();
+		$regioni = $this->_tableRegione->getTableName();
+		return  ' FROM ' . $this->_tableName . ' AS c' . 
+				' LEFT JOIN ' . $province . ' AS p ON p.sigla = c.provincia' .
+				' LEFT JOIN ' . $regioni . ' AS r ON p.id_regione = r.id';
+	}
+	
+	function _buildQueryWhere() 
+	{
+		global $mainframe, $option;
+
+		$filterRegioneId = $this->getState('filterRegioneId');
+		return ( $filterRegioneId === 0 ) ? '' : ' WHERE r.id = ' . $filterRegioneId;
 	}
 
 	function _buildQueryOrderBy()
@@ -101,59 +119,26 @@ class CampioniModelCampioni extends JModel
 	function getCampioni()
 	{
 		// Lets load the data if it doesn't already exist
-		if (empty( $this->_campioni ))
+		if (empty( $this->_campioni))
 		{
-			$campioni = $this->getFilteredCampioni();
-			$limitStart = $this->getState('limitstart');
+			$query = $this->_buildQuery();
+			$limitstart = $this->getState('limitstart');
 			$limit = $this->getState('limit');
-			if ( $limit == 0 ) {
-				$this->_campioni = $campioni;
-			} else {
-				$this->_campioni = array_slice($campioni, $limitStart, $limit);
-			}
+			$list  = $this->_getList($query, $limitstart, $limit);
+			$this->_campioni = $this->_loadCampioni( $list );
 		}
 		return $this->_campioni;
-	}
-
-	function getFilteredCampioni()
-	{
-		if (empty( $this->_filteredCampioni ))
-		{
-			$campioni = $this->getAllCampioni();
-			$campioni = $this->_filterByRegione( $campioni );
-			$this->_filteredCampioni = $campioni;
-		}
-		return $this->_filteredCampioni;
 	}
 
 	function getAllCampioni()
 	{
 		if (empty( $this->_allCampioni ))
 		{
-			$query = $this->_buildQuery();
-			$this->_loadCampioni( $this->_getList( $query ) );
+			$query = $this->_buildQuery( true );
+			$list  = $this->_getList($query);
+			$this->_allCampioni = $this->_loadCampioni( $list );
 		}
 		return $this->_allCampioni;
-	}
-
-	function _filterByRegione( $campioni )
-	{
-		global $mainframe, $option;
-
-		$filterRegioneId = $mainframe->getUserStateFromRequest( $option.'filter_regioneid', 'filter_regioneid', 0, 'int' );
-		if ( $filterRegioneId === 0 ) {
-			return $campioni;
-		}
-		$campioniFilterd = array();
-		foreach ($campioni as $campione) {
-			$provincia = $campione->getProvincia();
-			$regione = $provincia->getRegione();
-			if ( $regione->getId() !== $filterRegioneId ) {
-				continue;
-			}
-			$campioniFilterd[] = $campione;
-		}
-		return $campioniFilterd;
 	}
 
 	function getNumCampioniByRegione( $regioneArg )
@@ -165,19 +150,13 @@ class CampioniModelCampioni extends JModel
 	function getMapCampioniPerRegione()
 	{
 		if ( empty($this->_mapNumCampioni)) {
-			$campioni = $this->getAllCampioni();
-			foreach ($campioni as $campione) {
-				$provincia = $campione->getProvincia();
-				if ($provincia) {
-					$regione = $provincia->getRegione();
-					@$this->_mapNumCampioni[$regione->getId()] += 1;
-				} else {
-					@$this->_mapNumCampioni[0] += 1;
-				}
+			$query = 'SELECT r.id AS rid, COUNT(*) AS numCampioni' .
+					 $this->_buildQueryBody() .
+					 ' GROUP BY r.id';
+			$list = $this->_getList($query);
+			foreach ($list as $nCampioni) {
+				$this->_mapNumCampioni[$nCampioni->rid] = $nCampioni->numCampioni;
 			}
-			/*foreach ($regioni as $regione) {
-			 $regione->numCampioni = $numCampioni[$regione->id];
-			 }*/
 		}
 		return $this->_mapNumCampioni;
 	}
@@ -202,10 +181,19 @@ class CampioniModelCampioni extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$this->_total = count($this->getFilteredCampioni());
+			$filterRegioneId = $this->getState('filterRegioneId');
+			if (empty($filterRegioneId)) {
+				$query = 'SELECT COUNT(*)' .
+						 ' FROM ' . $this->_tableName;
+			} else {
+				$query = 'SELECT COUNT(*)' .
+					 $this->_buildQueryBody() .
+					 $this->_buildQueryWhere();
+			}
+			$this->_db->setQuery($query);
+			$this->_total = $this->_db->loadResult();
 		}
 		return $this->_total;
-
 	}
 
 	function delete()
@@ -223,10 +211,11 @@ class CampioniModelCampioni extends JModel
 	}
 
 	function _loadCampioni( $objList ) {
-		$this->_allCampioni = array();
+		$campioni = array();
 		foreach ( $objList as $obj) {
-			$this->_allCampioni[] = $this->_loadCampione($obj);
+			$campioni[] = $this->_loadCampione($obj);
 		}
+		return $campioni;
 	}
 
 	function _loadCampione($obj) {
